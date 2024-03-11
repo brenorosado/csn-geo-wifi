@@ -1,0 +1,95 @@
+.header-container {
+    border-radius: clamp(16px, 0.833vw, 0.833vw);
+    width: 100%;
+    height: 10vh;
+    background: lightgray;
+    display: flex;
+    justify-content: center;
+    gap: clamp(48px, 2.5vw, 2.5vw);
+    overflow: auto;
+}
+
+.header-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(8px, 0.42vw, 0.42vw);
+}
+
+input[type=datetime-local] {
+    all: unset;
+    background: white;
+    font-size: clamp(16px, 0.833vw, 0.833vw);
+    border-radius: clamp(4px, 0.21vw, 0.21vw);
+    padding: clamp(4px, 0.21vw, 0.21vw) clamp(8px, 0.42vw, 0.42vw);
+    border: 1px solid rgb(0, 38, 109);
+}
+
+
+.form-control {
+    cursor: pointer;
+    font-family: system-ui, sans-serif;
+    font-size: clamp(16px, 0.833vw, 0.833vw);
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+}
+  
+input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    margin-top: 2px;
+    font: inherit;
+    color: rgb(0, 38, 109);
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid rgb(0, 38, 109);
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+input[type="radio"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em rgb(0, 38, 109);
+}
+
+input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+.field-label {
+    font-size: clamp(16px, 0.833vw, 0.833vw);
+    font-weight: bold;
+    color: rgb(0, 38, 109);
+}
+
+.options-container {
+    display: flex;
+    gap: clamp(8px, 0.42vw, 0.42vw);
+}
+
+.option {
+    display: flex;
+    gap: clamp(4px, 0.21vw, 0.21vw);
+}
+
+button {
+    all: unset;
+    background: rgb(0, 38, 109);
+    color: white;
+    border-radius: clamp(8px, 0.42vw, 0.42vw);
+    padding: clamp(16px, 0.833vw, 0.833vw);
+    margin: auto 0;
+    cursor: pointer;
+}

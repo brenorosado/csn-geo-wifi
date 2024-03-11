@@ -1,0 +1,68 @@
+<form class="header-container" [formGroup]="mapForm" (ngSubmit)="onSubmit()">
+    <div class="header-field">
+        <label class="field-label">Período</label>
+        <div class="options-container">
+            <input id="startAt" name="startAt" formControlName="startAt" type="datetime-local" />
+            <input id="endAt" name="endAt" formControlName="endAt" type="datetime-local" />
+        </div>
+    </div>
+    <div class="header-field">
+        <label class="field-label">Tipo de dado</label>
+        <div class="options-container">
+            <div class="option">
+                <label class="form-control" for="dataType1">
+                    <input id="dataType1" name="dataType" formControlName="dataType" value="RSSI" type="radio" /> 
+                    RSSI
+                </label>
+            </div>
+            <div class="option">
+                <label class="form-control" for="dataType2">
+                    <input id="dataType2" name="dataType" formControlName="dataType" value="Custo" type="radio" /> 
+                    Custo
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="header-field">
+        <label class="field-label">Precisão</label>
+        <div class="options-container">
+            <div class="option">
+                <label class="form-control" for="precision1">
+                    <input
+                        id="precision1"
+                        name="precision"
+                        formControlName="precision"
+                        value=0.00001
+                        type="radio"
+                    /> 
+                    1 metro
+                </label>
+            </div>
+            <div class="option">
+                <label class="form-control" for="precision2">
+                    <input
+                        id="precision2"
+                        name="precision"
+                        formControlName="precision"
+                        value=0.0001
+                        type="radio"
+                    /> 
+                    10 metros
+                </label>
+            </div>
+            <div class="option">
+                <label class="form-control" for="precision3">
+                    <input
+                        id="precision3"
+                        name="precision"
+                        formControlName="precision"
+                        value=0.001
+                        type="radio"
+                    /> 
+                    100 metros
+                </label>
+            </div>
+        </div>
+    </div>
+    <button type="submit">Exibir</button>
+</form>

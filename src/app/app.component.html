@@ -1,1 +1,7 @@
-<app-map></app-map>
+<section class="app-container">
+    <app-header [onSubmitForm]="onSubmitForm"></app-header>
+    <app-map
+        [measures]="measures"
+        [formValues]="formValues"
+    ></app-map>
+</section>
