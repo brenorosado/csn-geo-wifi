@@ -2,38 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 import { RouterOutlet } from '@angular/router';
 import { MapComponent } from './core/components/map/map.component';
 import { HeaderComponent } from './core/components/header/header.component';
-
-export type MockedMeasuresType = {
-  id: number;
-  coordinates: number[];
-  dataType: string;
-  measuredAt: string;
-  connection: "good" | "regular" | "bad"
-}
-
-const mockedMeasures: MockedMeasuresType[] = [
-  {
-    id: 1,
-    coordinates: [-43.8912, -20.4969],
-    dataType: "RSSI",
-    measuredAt: '2022-10-05T00:00:00.000Z',
-    connection: 'good'
-  },
-  {
-    id: 2,
-    coordinates: [-43.8869, -20.5027],
-    dataType: "Custo",
-    measuredAt: '2023-10-05T00:00:00.000Z',
-    connection: "regular"
-  },
-  {
-    id: 3,
-    coordinates: [-43.8999, -20.5020],
-    dataType: "RSSI",
-    measuredAt: '2024-10-05T00:00:00.000Z',
-    connection: "bad"
-  }
-];
+import { MockedMeasuresType, generateMockedMeasures } from './core/utils/generateMockedMeasures';
 
 @Component({
   selector: 'app-root',
@@ -56,7 +25,7 @@ export class AppComponent {
   constructor(public cdr: ChangeDetectorRef) {}
 
   onSubmitForm = (data: any) => {
-    let newMeasures = [...mockedMeasures];
+    let newMeasures = [...this.measures];
 
     if (data?.startAt)
       newMeasures = new Array(
@@ -82,6 +51,6 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.measures = new Array(...mockedMeasures);
+    this.measures = generateMockedMeasures({});
   }
 }

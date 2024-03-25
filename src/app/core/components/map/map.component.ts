@@ -9,9 +9,10 @@ import { Fill, Stroke, Style } from "ol/style";
 import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
 import OSM from "ol/source/OSM";
-import { MockedMeasuresType } from "../../../app.component";
 import ImageLayer from 'ol/layer/Image';
 import LayerGroup from 'ol/layer/Group';
+import { MockedMeasuresType } from '../../utils/generateMockedMeasures';
+import { gatherCloseMeasures } from '../../utils/handleMeasures';
 
 @Component({
   selector: 'app-map',
@@ -93,11 +94,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
       layers: [
         new TileLayer({ source: new OSM() }),
         new ImageLayer({
-          // extent: [-13884991, 2870341, -7455066, 6338219],
+          extent: [-43.976368616, -20.510904917, -43.824099190, -20.410643808],
           source: new ImageWMS({
-            url: 'http://localhost:8080/geoserver/wms',
-            params: {'LAYERS': 'clipped_csn:congonhas_2018_2019'},
-            // ratio: 1,
+            url: 'http://localhost:7070/geoserver/wms',
+            params: {
+              // 'LAYERS': 'ne:world'
+              'LAYERS': 'mina_csn:congonhas_2018_2019'
+            },
+            ratio: 1,
             serverType: 'geoserver',
           }),
         }),
@@ -107,27 +111,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
       ],
       view: new View({
         projection: "EPSG:4326",
-        center: [-43.891283221587805, -20.49695191169992],
-        zoom: 15
+        extent: [-43.976368616, -20.510904917, -43.824099190, -20.410643808],
+        center: [-43.900233903, -20.9607743625],
+        zoom: 13
       })
     });
-
-    // const overlays = new LayerGroup({
-    //   layers: [
-    //     new ImageLayer({
-    //       source: new ImageWMS({
-    //         url: "http://localhost:8080/geoserver/wms",
-    //         params: {
-    //           "LAYERS": "clipped_csn:congonhas_2018_2019"
-    //         },
-    //         ratio: 1,
-    //         serverType: "geoserver"
-    //       })
-    //     })
-    //   ]
-    // });
-
-    // this.map.addLayer(overlays);
 
     this.addPolygons();
   }
@@ -147,33 +135,41 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     this.regularConnectionsLayer.getSource().clear();
     this.badConnectionsLayer.getSource().clear();
 
-    const precision = Number(this.formValues.precision)
-    const goodConnectionsCoordinates: number[][][] = [];
-    const regularConnectionsCoordinates: number[][][] = [];
-    const badConnectionsCoordinates: number[][][] = [];
+    const precision = Number(this.formValues.precision);
 
-    [
-      {
-        quality: "good",
-        array: goodConnectionsCoordinates
-      },
-      {
-        quality: "regular",
-        array: regularConnectionsCoordinates
-      },
-      {
-        quality: "bad",
-        array: badConnectionsCoordinates
-      }
-    ].forEach(({ quality, array }) => array.push(
-      ...this.measures.filter(({ connection }) => connection === quality)
-      .map(({ coordinates }) => [
-        [coordinates[0] - precision, coordinates[1]],
-        [coordinates[0], coordinates[1] - precision],
-        [coordinates[0] + precision, coordinates[1]],
-        [coordinates[0], coordinates[1] + precision]
-      ])
-    ));
+    const {
+      goodConnectionsCoordinates,
+      regularConnectionsCoordinates,
+      badConnectionsCoordinates
+    } = gatherCloseMeasures(this.measures, precision);
+
+    // const goodConnectionsCoordinates: number[][][] = [];
+    // const regularConnectionsCoordinates: number[][][] = [];
+    // const badConnectionsCoordinates: number[][][] = [];
+
+
+    // [
+    //   {
+    //     checkQuality: (c: number) => c >= 0.8,
+    //     array: goodConnectionsCoordinates
+    //   },
+    //   {
+    //     checkQuality: (c: number) => c >= 0.5 && c < 0.8,
+    //     array: regularConnectionsCoordinates
+    //   },
+    //   {
+    //     checkQuality: (c: number) => c <= 0.65,
+    //     array: badConnectionsCoordinates
+    //   }
+    // ].forEach(({ checkQuality, array }) => array.push(
+    //   ...this.measures.filter(({ connection }) => checkQuality(connection))
+    //   .map(({ coordinates }) => [
+    //     [coordinates[0] - (precision / 2), coordinates[1] + (precision / 2)],
+    //     [coordinates[0] - (precision / 2), coordinates[1] - (precision / 2)],
+    //     [coordinates[0] + (precision / 2), coordinates[1] - (precision / 2)],
+    //     [coordinates[0] + (precision / 2), coordinates[1] + (precision / 2)]
+    //   ])
+    // ));
 
     const goodConnectionsGeometry = new Polygon(goodConnectionsCoordinates)
       .transform('EPSG:4326', this.map?.getView().getProjection());
