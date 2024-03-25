@@ -59,7 +59,7 @@ export const gatherCloseMeasures = (
                 Math.pow(coordinates[1] - averageCoordinates[1], 2)
             );
 
-            if (distance <= precision) {
+            if (distance <= (2 * precision / Math.sqrt(2))) {
                 const newMeasures = [...gatheredMeasures[i].measures, measure];
                 gatheredMeasures[i] = {
                     ...gatheredMeasures[i],
