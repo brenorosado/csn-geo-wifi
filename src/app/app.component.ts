@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MapComponent } from './core/components/map/map.component';
+import { MapComponent, polygonStyleFunction } from './core/components/map/map.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { MockedMeasuresType, generateMockedMeasures } from './core/utils/generateMockedMeasures';
 import KML from 'ol/format/KML.js';
 import Vector from "ol/layer/Vector";
+import { Feature } from 'ol';
 
 export type FormValuesType = {
   startAt: string | null,
@@ -64,13 +65,16 @@ export class AppComponent {
 
   onGenerateKMLFile = () => {
     let kmlFormat = new KML({
+      extractStyles: true,
+      writeStyles: true
+    });
+
+    const features: Feature[] = this.polygonsLayer?.getSource().getFeatures({
       extractStyles: true
     });
 
-    const features = this.polygonsLayer?.getSource().getFeatures({
-      extractStyles: true
-    });
-    console.log("features", features);
+    features.forEach(feature => feature.setStyle(polygonStyleFunction));
+  
     const kmlString = kmlFormat.writeFeatures(features, {
       featureProjection: 'EPSG:4326',
     });

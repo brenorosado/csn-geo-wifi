@@ -7,12 +7,13 @@ import VectorSource from "ol/source/Vector";
 import Vector from "ol/layer/Vector";
 import { Fill, Stroke, Style } from "ol/style";
 import Polygon from "ol/geom/Polygon";
-import Feature from "ol/Feature";
+import Feature, { FeatureLike } from "ol/Feature";
 import OSM from "ol/source/OSM";
 import ImageLayer from 'ol/layer/Image';
 import { MockedMeasuresType } from '../../utils/generateMockedMeasures';
 import { gatherCloseMeasures } from '../../utils/handleMeasures';
 import { formDefaultValues, FormValuesType } from '../../../app.component';
+import { StyleFunction } from 'ol/style/Style';
 
 const goodConnectionStyle = new Style({
   fill: new Fill({
@@ -33,6 +34,18 @@ const regularConnectionStyle = new Style({
     width: 1
   })
 });
+
+export const polygonStyleFunction: StyleFunction = (feature: FeatureLike) => {
+  const qualityClassification = feature.get('qualityClassification');
+  
+  if (qualityClassification === "good")
+    return goodConnectionStyle;
+
+  if (qualityClassification === "regular")
+    return regularConnectionStyle;
+
+  return badConnectionStyle;
+}
 
 const badConnectionStyle = new Style({
   fill: new Fill({
@@ -66,17 +79,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     this.polygonsLayer = new Vector({
       source: goodConnectionsVectorSource,
-      style: (feature) => {
-        const qualityClassification = feature.get('qualityClassification');
-        
-        if (qualityClassification === "good")
-          return goodConnectionStyle;
-
-        if (qualityClassification === "regular")
-          return regularConnectionStyle;
-
-        return badConnectionStyle;
-      }
+      style: polygonStyleFunction
     });
 
     this.map = new Map({
