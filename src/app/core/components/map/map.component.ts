@@ -10,9 +10,39 @@ import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
 import OSM from "ol/source/OSM";
 import ImageLayer from 'ol/layer/Image';
-import LayerGroup from 'ol/layer/Group';
 import { MockedMeasuresType } from '../../utils/generateMockedMeasures';
 import { gatherCloseMeasures } from '../../utils/handleMeasures';
+import { formDefaultValues, FormValuesType } from '../../../app.component';
+
+const goodConnectionStyle = new Style({
+  fill: new Fill({
+    color: "lightgreen"
+  }),
+  stroke: new Stroke({
+    color: "green",
+    width: 1
+  })
+});
+
+const regularConnectionStyle = new Style({
+  fill: new Fill({
+    color: "lightyellow"
+  }),
+  stroke: new Stroke({
+    color: "yellow",
+    width: 1
+  })
+});
+
+const badConnectionStyle = new Style({
+  fill: new Fill({
+    color: "lightcoral"
+  }),
+  stroke: new Stroke({
+    color: "red",
+    width: 1
+  })
+});
 
 @Component({
   selector: 'app-map',
@@ -22,71 +52,31 @@ import { gatherCloseMeasures } from '../../utils/handleMeasures';
   styleUrl: './map.component.css'
 })
 export class MapComponent implements OnInit, AfterViewInit, OnChanges {
-  goodConnectionsLayer: any;
-  regularConnectionsLayer: any;
-  badConnectionsLayer: any;
+  polygonsLayer: Vector<any> | undefined;
   map: Map | undefined;
-  vectorTileSource: any;
-  vtLayer: any;
 
+  @Input() updatePolygonsLayer: undefined | ((m: Vector<any>) => void);
   @Input() measures: Array<MockedMeasuresType> = [];
-  @Input() formValues = {
-    startAt: null,
-    endAt: null,
-    dataType: null,
-    precision: 0.001
-  };
+  @Input() formValues: FormValuesType = formDefaultValues;
 
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    const goodConnectionStyle = new Style({
-      fill: new Fill({
-        color: "lightgreen"
-      }),
-      stroke: new Stroke({
-        color: "green",
-        width: 1
-      })
-    });
-
-    const regularConnectionStyle = new Style({
-      fill: new Fill({
-        color: "lightyellow"
-      }),
-      stroke: new Stroke({
-        color: "yellow",
-        width: 1
-      })
-    });
-
-    const badConnectionStyle = new Style({
-      fill: new Fill({
-        color: "lightcoral"
-      }),
-      stroke: new Stroke({
-        color: "red",
-        width: 1
-      })
-    });
-
     let goodConnectionsVectorSource = new VectorSource({features: []});
-    let regularConnectionsVectorSource = new VectorSource({features: []});
-    let badConnectionsVectorSource = new VectorSource({features: []});
 
-    this.goodConnectionsLayer = new Vector({
+    this.polygonsLayer = new Vector({
       source: goodConnectionsVectorSource,
-      style: [goodConnectionStyle]
-    });
+      style: (feature) => {
+        const qualityClassification = feature.get('qualityClassification');
+        
+        if (qualityClassification === "good")
+          return goodConnectionStyle;
 
-    this.regularConnectionsLayer = new Vector({
-      source: regularConnectionsVectorSource,
-      style: [regularConnectionStyle]
-    });
+        if (qualityClassification === "regular")
+          return regularConnectionStyle;
 
-    this.badConnectionsLayer = new Vector({
-      source: badConnectionsVectorSource,
-      style: [badConnectionStyle]
+        return badConnectionStyle;
+      }
     });
 
     this.map = new Map({
@@ -96,6 +86,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         new ImageLayer({
           extent: [-43.976368616, -20.510904917, -43.824099190, -20.410643808],
           source: new ImageWMS({
+            projection: "EPSG:4326",
             url: 'http://localhost:7070/geoserver/wms',
             params: {
               // 'LAYERS': 'ne:world'
@@ -105,9 +96,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             serverType: 'geoserver',
           }),
         }),
-        this.goodConnectionsLayer,
-        this.regularConnectionsLayer,
-        this.badConnectionsLayer
+        this.polygonsLayer,
       ],
       view: new View({
         projection: "EPSG:4326",
@@ -131,57 +120,37 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   addPolygons() {
-    this.goodConnectionsLayer.getSource().clear();
-    this.regularConnectionsLayer.getSource().clear();
-    this.badConnectionsLayer.getSource().clear();
+    this?.polygonsLayer?.getSource()?.clear();
 
     const precision = Number(this.formValues.precision);
+    const dataType = this.formValues.dataType;
 
     const {
-      goodConnectionsCoordinates,
-      regularConnectionsCoordinates,
-      badConnectionsCoordinates
-    } = gatherCloseMeasures(this.measures, precision);
+      goodCoordinates,
+      regularCoordinates,
+      badCoordinates
+    } = gatherCloseMeasures(this.measures, precision, dataType);
 
-    // const goodConnectionsCoordinates: number[][][] = [];
-    // const regularConnectionsCoordinates: number[][][] = [];
-    // const badConnectionsCoordinates: number[][][] = [];
+    [
+      badCoordinates,
+      regularCoordinates,
+      goodCoordinates
+    ].forEach((coordinates, index) => {
+      const measuresGeometry = new Polygon(coordinates)
+        .transform('EPSG:4326', this.map?.getView().getProjection());
+      
+      const polygonsFeatures = new Feature(measuresGeometry);
+      
+      polygonsFeatures.setProperties({
+        qualityClassification: ['bad', 'regular', 'good'][index]
+      });
+      
+      this.polygonsLayer
+        ?.getSource()
+        ?.addFeature(polygonsFeatures);
+    });
 
-
-    // [
-    //   {
-    //     checkQuality: (c: number) => c >= 0.8,
-    //     array: goodConnectionsCoordinates
-    //   },
-    //   {
-    //     checkQuality: (c: number) => c >= 0.5 && c < 0.8,
-    //     array: regularConnectionsCoordinates
-    //   },
-    //   {
-    //     checkQuality: (c: number) => c <= 0.65,
-    //     array: badConnectionsCoordinates
-    //   }
-    // ].forEach(({ checkQuality, array }) => array.push(
-    //   ...this.measures.filter(({ connection }) => checkQuality(connection))
-    //   .map(({ coordinates }) => [
-    //     [coordinates[0] - (precision / 2), coordinates[1] + (precision / 2)],
-    //     [coordinates[0] - (precision / 2), coordinates[1] - (precision / 2)],
-    //     [coordinates[0] + (precision / 2), coordinates[1] - (precision / 2)],
-    //     [coordinates[0] + (precision / 2), coordinates[1] + (precision / 2)]
-    //   ])
-    // ));
-
-    const goodConnectionsGeometry = new Polygon(goodConnectionsCoordinates)
-      .transform('EPSG:4326', this.map?.getView().getProjection());
-
-    const regularConnectionsGeometry = new Polygon(regularConnectionsCoordinates)
-      .transform('EPSG:4326', this.map?.getView().getProjection());
-
-    const badConnectionsGeometry = new Polygon(badConnectionsCoordinates)
-      .transform('EPSG:4326', this.map?.getView().getProjection());
-
-    this.goodConnectionsLayer.getSource().addFeature(new Feature(goodConnectionsGeometry));
-    this.regularConnectionsLayer.getSource().addFeature(new Feature(regularConnectionsGeometry));
-    this.badConnectionsLayer.getSource().addFeature(new Feature(badConnectionsGeometry));
+    if (this.updatePolygonsLayer && this.polygonsLayer)
+      this.updatePolygonsLayer(this.polygonsLayer);
   }
 }

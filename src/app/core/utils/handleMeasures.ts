@@ -1,62 +1,71 @@
 import { MockedMeasuresType } from "./generateMockedMeasures";
 
-const GOOD_CONNECTION_INFERIOR_LIMIT = 0.8;
-const REGULAR_CONNECTION_INFERIOR_LIMIT = 0.5;
+const GOOD_COST_INFERIOR_LIMIT = 150;
+const REGULAR_COST_INFERIOR_LIMIT = 100;
+
+const GOOD_RSSI_INFERIOR_LIMIT = -50;
+const REGULAR_RSSI_INFERIOR_LIMIT = -80;
 
 export type GatheredMockedMeasures = {
     id: number;
-    averageCoordinates: [number, number],
-    averageConnection: number,
+    averageLatitude: number;
+    averageLongitude: number;
+    averageCost: number;
+    averageRssi: number;
     measures: MockedMeasuresType[]
 }
 
 export type ClassifiedGatheredMeasures = {
-    goodConnectionsCoordinates: number[][][],
-    regularConnectionsCoordinates: number[][][],
-    badConnectionsCoordinates: number[][][]
+    goodCoordinates: number[][][],
+    regularCoordinates: number[][][],
+    badCoordinates: number[][][]
 }
 
 const calculateAverageCoordinatesAndConnection = (
     measures: MockedMeasuresType[]
 ): {
-    averageCoordinates: [number, number],
-    averageConnection: number
+    averageLatitude: number;
+    averageLongitude: number;
+    averageCost: number;
+    averageRssi: number;
 } => {
     let accumulatedLatitude = 0;
     let accumulatedLongitude = 0;
-    let accumulatedConnection = 0;
+    let accumulatedCost = 0;
+    let accumulatedRssi = 0;
 
-    measures.forEach(({ coordinates, connection }) => {
-        accumulatedLatitude += coordinates[0];
-        accumulatedLongitude += coordinates[1];
-        accumulatedConnection += connection;
+    measures.forEach(({ latitude, longitude, cost, rssi }) => {
+        accumulatedLatitude += latitude;
+        accumulatedLongitude += longitude;
+        accumulatedCost += cost;
+        accumulatedRssi += rssi;
     });
 
     return {
-        averageCoordinates: [
-            accumulatedLatitude / measures.length,
-            accumulatedLongitude / measures.length
-        ],
-        averageConnection: accumulatedConnection / measures.length
+        averageLatitude: accumulatedLatitude / measures.length,
+        averageLongitude: accumulatedLongitude / measures.length,
+        averageCost: accumulatedCost / measures.length,
+        averageRssi: accumulatedRssi / measures.length
     }
 }
 
 export const gatherCloseMeasures = (
     measures: MockedMeasuresType[],
-    precision: number
+    precision: number,
+    dataType: "custo" | "rssi"
 ): ClassifiedGatheredMeasures => {
     const gatheredMeasures: GatheredMockedMeasures[] = [];
 
     measures.forEach((measure) => {
-        const { coordinates } = measure;
+        const { latitude, longitude } = measure;
         let gathered = false;
 
         for (let i = 0; i < gatheredMeasures.length; i++) {
-            const { averageCoordinates } = gatheredMeasures[i];
+            const { averageLatitude, averageLongitude } = gatheredMeasures[i];
 
             const distance = Math.sqrt(
-                Math.pow(coordinates[0] - averageCoordinates[0], 2) +
-                Math.pow(coordinates[1] - averageCoordinates[1], 2)
+                Math.pow(latitude - averageLatitude, 2) +
+                Math.pow(longitude - averageLongitude, 2)
             );
 
             if (distance <= (2 * precision / Math.sqrt(2))) {
@@ -80,51 +89,67 @@ export const gatherCloseMeasures = (
         }
     });
 
-    return classifyGatheredMeasures(gatheredMeasures, precision);
+    return classifyGatheredMeasures(gatheredMeasures, precision, dataType);
 }
 
 export const getPoligonsPointsCoordinates = (
-    coordinates: [number, number],
+    longitude: number,
+    latitude: number,
     precision: number
 ): number[][] => {
     return [
-        [coordinates[0] - (precision / 2), coordinates[1] + (precision / 2)],
-        [coordinates[0] - (precision / 2), coordinates[1] - (precision / 2)],
-        [coordinates[0] + (precision / 2), coordinates[1] - (precision / 2)],
-        [coordinates[0] + (precision / 2), coordinates[1] + (precision / 2)]
+        [longitude - (precision / 2), latitude + (precision / 2)],
+        [longitude - (precision / 2), latitude - (precision / 2)],
+        [longitude + (precision / 2), latitude - (precision / 2)],
+        [longitude + (precision / 2), latitude + (precision / 2)]
     ];
 }
 
 export const classifyGatheredMeasures = (
     gatheredMeasures: GatheredMockedMeasures[],
-    precision: number
+    precision: number,
+    dataType: "custo" | "rssi"
 ): ClassifiedGatheredMeasures => {
-    const goodConnectionsCoordinates: number[][][] = [];
-    const regularConnectionsCoordinates: number[][][] = [];
-    const badConnectionsCoordinates: number[][][] = [];
+    const goodCoordinates: number[][][] = [];
+    const regularCoordinates: number[][][] = [];
+    const badCoordinates: number[][][] = [];
 
-    gatheredMeasures.forEach(({ averageConnection, averageCoordinates }) => {
+    gatheredMeasures.forEach(({
+        averageLatitude,
+        averageLongitude,
+        averageCost,
+        averageRssi
+    }) => {
         const poligonsPointsCoodinates = getPoligonsPointsCoordinates(
-            averageCoordinates,
+            averageLongitude,
+            averageLatitude,
             precision
         );
 
-        if (averageConnection >= GOOD_CONNECTION_INFERIOR_LIMIT) {
-            goodConnectionsCoordinates.push(poligonsPointsCoodinates);
+        const averageValue = dataType === "custo" ? averageCost : averageRssi;
+        const goodInferiorLimit = dataType === "custo" ?
+            GOOD_COST_INFERIOR_LIMIT :
+            GOOD_RSSI_INFERIOR_LIMIT;
+        const regularInferiorLimit = dataType === "custo" ?
+            REGULAR_COST_INFERIOR_LIMIT :
+            REGULAR_RSSI_INFERIOR_LIMIT;
+
+        if (averageValue >= goodInferiorLimit) {
+            goodCoordinates.push(poligonsPointsCoodinates);
             return;
         }
         
-        if (averageConnection >= REGULAR_CONNECTION_INFERIOR_LIMIT) {
-            regularConnectionsCoordinates.push(poligonsPointsCoodinates);
+        if (averageValue >= regularInferiorLimit) {
+            regularCoordinates.push(poligonsPointsCoodinates);
             return;
         }
 
-        badConnectionsCoordinates.push(poligonsPointsCoodinates);
+        badCoordinates.push(poligonsPointsCoodinates);
     });
 
     return {
-        goodConnectionsCoordinates,
-        regularConnectionsCoordinates,
-        badConnectionsCoordinates
+        goodCoordinates,
+        regularCoordinates,
+        badCoordinates
     }
 }

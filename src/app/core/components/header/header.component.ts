@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { formDefaultValues } from '../../../app.component';
 
 @Component({
   selector: 'app-header',
@@ -12,15 +13,21 @@ import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angul
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  mapForm = new FormGroup({
-    startAt: new FormControl(),
-    endAt: new FormControl(),
-    dataType: new FormControl(),
-    precision: new FormControl()
-  });
   @Input() onSubmitForm: Function = () => {};
+  @Input() onGenerateKMLFile: Function = () => {};
+
+  mapForm = new FormGroup({
+    startAt: new FormControl(formDefaultValues.startAt),
+    endAt: new FormControl(formDefaultValues.endAt),
+    dataType: new FormControl(formDefaultValues.dataType),
+    precision: new FormControl(formDefaultValues.precision.toString())
+  });
 
   onSubmit () {
     this.onSubmitForm(this.mapForm.value);
+  }
+
+  onDownloadKMLFile () {
+    this.onGenerateKMLFile();
   }
 }

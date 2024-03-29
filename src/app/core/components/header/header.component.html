@@ -11,13 +11,26 @@
         <div class="options-container">
             <div class="option">
                 <label class="form-control" for="dataType1">
-                    <input id="dataType1" name="dataType" formControlName="dataType" value="RSSI" type="radio" /> 
+                    <input
+                        id="dataType1"
+                        name="dataType"
+                        formControlName="dataType"
+                        value="rssi"
+                        type="radio"
+                    /> 
                     RSSI
                 </label>
             </div>
             <div class="option">
                 <label class="form-control" for="dataType2">
-                    <input id="dataType2" name="dataType" formControlName="dataType" value="Custo" type="radio" /> 
+                    <input
+                        id="dataType2"
+                        name="dataType"
+                        checked
+                        formControlName="dataType"
+                        value="custo"
+                        type="radio"
+                    /> 
                     Custo
                 </label>
             </div>
@@ -55,6 +68,7 @@
                     <input
                         id="precision3"
                         name="precision"
+                        checked
                         formControlName="precision"
                         value=0.001
                         type="radio"
@@ -65,4 +79,5 @@
         </div>
     </div>
     <button type="submit">Exibir</button>
+    <button type="button" (click)="onGenerateKMLFile()">Download KML</button>
 </form>
