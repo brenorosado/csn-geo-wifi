@@ -34,32 +34,17 @@ export class AppComponent {
   formValues: FormValuesType = formDefaultValues;
   measures: MockedMeasuresType[] = [];
   polygonsLayer: Vector<any> | undefined;
+  showHeader: boolean = true;
 
   constructor(public cdr: ChangeDetectorRef) {}
 
+  onToggleShowHeader = () => {
+    this.showHeader = !this.showHeader;
+    this.cdr.detectChanges();
+  }
+
   onSubmitForm = (data: any) => {
-    let newMeasures = [...this.measures];
-
-    if (data?.startAt)
-      newMeasures = new Array(
-        ...newMeasures.filter(
-          ({ timestamp }) => 
-            Number(new Date(timestamp)) >= 
-            Number(new Date(data.startAt))
-        )
-      );
-
-    if (data?.endAt)
-      newMeasures = new Array(
-        ...newMeasures.filter(
-          ({ timestamp }) =>
-            Number(new Date(timestamp)) <=
-            Number(new Date(data.endAt))
-        )
-      );
-
     this.formValues = {...data};
-    this.measures = new Array(...newMeasures);
     this.cdr.detectChanges();
   }
 
@@ -87,7 +72,7 @@ export class AppComponent {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-   }
+  }
 
   updatePolygonsLayer = (newPolygonsLayer: Vector<any>) => {
     this.polygonsLayer = newPolygonsLayer;

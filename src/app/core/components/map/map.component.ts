@@ -30,7 +30,17 @@ const regularConnectionStyle = new Style({
     color: "lightyellow"
   }),
   stroke: new Stroke({
-    color: "yellow",
+    color: "orange",
+    width: 1
+  })
+});
+
+const badConnectionStyle = new Style({
+  fill: new Fill({
+    color: "lightcoral"
+  }),
+  stroke: new Stroke({
+    color: "red",
     width: 1
   })
 });
@@ -46,16 +56,6 @@ export const polygonStyleFunction: StyleFunction = (feature: FeatureLike) => {
 
   return badConnectionStyle;
 }
-
-const badConnectionStyle = new Style({
-  fill: new Fill({
-    color: "lightcoral"
-  }),
-  stroke: new Stroke({
-    color: "red",
-    width: 1
-  })
-});
 
 @Component({
   selector: 'app-map',
@@ -113,13 +113,30 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.measures = changes['measures'].currentValue;
     this.formValues = {
       ...changes['formValues'].currentValue,
       precision: Number(changes['formValues'].currentValue.precision)
     };
 
     this.addPolygons()
+  }
+
+  filterMeasures = ({ timestamp }: MockedMeasuresType) => {
+    const { startAt, endAt } = this.formValues;
+
+    if (
+      startAt
+      && Number(new Date(timestamp)) <= Number(new Date(startAt))
+    )
+      return false;
+
+    if (
+      endAt
+      && Number(new Date(timestamp)) >= Number(new Date(endAt))
+    )
+      return false;
+
+    return true;
   }
 
   addPolygons() {
@@ -132,7 +149,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
       goodCoordinates,
       regularCoordinates,
       badCoordinates
-    } = gatherCloseMeasures(this.measures, precision, dataType);
+    } = gatherCloseMeasures(this.measures.filter(this.filterMeasures), precision, dataType);
 
     [
       badCoordinates,

@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { formDefaultValues } from '../../../app.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule
   ],
@@ -15,6 +17,8 @@ import { formDefaultValues } from '../../../app.component';
 export class HeaderComponent {
   @Input() onSubmitForm: Function = () => {};
   @Input() onGenerateKMLFile: Function = () => {};
+  @Input() showHeader: boolean = true;
+  @Input() onToggleShowHeader: Function = () => {};
 
   mapForm = new FormGroup({
     startAt: new FormControl(formDefaultValues.startAt),
