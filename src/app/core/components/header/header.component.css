@@ -1,12 +1,19 @@
 .header-container {
-    border-radius: clamp(16px, 0.833vw, 0.833vw);
-    width: 100%;
-    height: 10vh;
+    border-radius: clamp(8px, 0.833vw, 0.833vw);
+    width: calc(100vw - 2 * clamp(8px, 0.833vw, 0.833vw));
     background: lightgray;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: clamp(48px, 2.5vw, 2.5vw);
     overflow: hidden;
+    position: fixed;
+    top: clamp(16px, 0.833vw, 0.833vw);
+    z-index: 9999;
+    padding: clamp(8px, 0.833vw, 0.833vw);
+    box-shadow: 0 0 clamp(4px, 0.42vw, 0.42vw) gray;
+    opacity: 1;
+    transition: 0.2s;
 }
 
 .header-field {
@@ -80,6 +87,8 @@ input[type="radio"]:checked::before {
 
 .options-container {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: clamp(8px, 0.42vw, 0.42vw);
 }
 
@@ -96,5 +105,18 @@ button {
     padding: clamp(8px, 0.833vw, 0.833vw);
     margin: auto 0;
     cursor: pointer;
-    font-size: clamp(8px, 0.833vw, 0.833vw);
+    font-size: clamp(12px, 0.833vw, 0.833vw);
+}
+
+.visibility-button {
+    background: gray;
+    position: fixed;
+    z-index: 99999;
+    right: clamp(8px, 0.833vw, 0.833vw);
+    padding: clamp(8px, 0.42vw, 0.42vw) clamp(8px, 0.833vw, 0.833vw); 
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(-100vh);
 }

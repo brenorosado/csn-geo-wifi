@@ -1,5 +1,5 @@
 <form
-    class="header-container"
+    [ngClass]="!!showHeader ? 'header-container' : 'header-container hidden'"
     [formGroup]="mapForm"
     (ngSubmit)="onSubmit()"
 >
@@ -88,3 +88,4 @@
     <button type="submit">Exibir</button>
     <button type="button" (click)="onGenerateKMLFile()">Gerar KML</button>
 </form>
+<button class="visibility-button" (click)="onToggleShowHeader()">Menu</button>

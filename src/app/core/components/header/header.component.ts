@@ -15,10 +15,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  showHeader: boolean = true;
+
   @Input() onSubmitForm: Function = () => {};
   @Input() onGenerateKMLFile: Function = () => {};
-  @Input() showHeader: boolean = true;
-  @Input() onToggleShowHeader: Function = () => {};
 
   mapForm = new FormGroup({
     startAt: new FormControl(formDefaultValues.startAt),
@@ -26,6 +26,10 @@ export class HeaderComponent {
     dataType: new FormControl(formDefaultValues.dataType),
     precision: new FormControl(formDefaultValues.precision.toString())
   });
+
+  onToggleShowHeader () {
+    this.showHeader = !this.showHeader;
+  }
 
   onSubmit () {
     this.onSubmitForm(this.mapForm.value);

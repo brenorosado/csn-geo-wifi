@@ -34,14 +34,7 @@ export class AppComponent {
   formValues: FormValuesType = formDefaultValues;
   measures: MockedMeasuresType[] = [];
   polygonsLayer: Vector<any> | undefined;
-  showHeader: boolean = true;
-
   constructor(public cdr: ChangeDetectorRef) {}
-
-  onToggleShowHeader = () => {
-    this.showHeader = !this.showHeader;
-    this.cdr.detectChanges();
-  }
 
   onSubmitForm = (data: any) => {
     this.formValues = {...data};
@@ -68,7 +61,7 @@ export class AppComponent {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `CSN-${Number(new Date())}.kml`;
+    a.download = `CSN-${this.formValues.dataType}-${Number(new Date())}.kml`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

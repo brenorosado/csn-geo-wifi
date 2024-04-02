@@ -3,7 +3,7 @@
     border-radius: clamp(8px, 0.833vw, 0.833vw);
     box-shadow: 0 0 clamp(4px, 0.42vw, 0.42vw) gray;
     overflow: hidden;
-    height: calc(90vh - 3 * clamp(16px, 0.833vw, 0.833vw))
+    height: calc(100vh - 2 * clamp(16px, 0.833vw, 0.833vw));
 }
 
 .map {
