@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     gap: clamp(48px, 2.5vw, 2.5vw);
-    overflow: auto;
+    overflow: hidden;
 }
 
 .header-field {
@@ -16,13 +16,17 @@
     gap: clamp(8px, 0.42vw, 0.42vw);
 }
 
+.header-field img {
+    width: clamp(144px, 7vw, 7vw);
+}
+
 input[type=datetime-local] {
     all: unset;
     background: white;
     font-size: clamp(16px, 0.833vw, 0.833vw);
     border-radius: clamp(4px, 0.21vw, 0.21vw);
     padding: clamp(4px, 0.21vw, 0.21vw) clamp(8px, 0.42vw, 0.42vw);
-    border: 1px solid rgb(0, 38, 109);
+    border: 1px solid #004d98;
 }
 
 
@@ -43,10 +47,10 @@ input[type="radio"] {
     margin: 0;
     margin-top: 2px;
     font: inherit;
-    color: rgb(0, 38, 109);
+    color: #004d98;
     width: 1.15em;
     height: 1.15em;
-    border: 0.15em solid rgb(0, 38, 109);
+    border: 0.15em solid #004d98;
     border-radius: 50%;
     transform: translateY(-0.075em);
     display: grid;
@@ -61,7 +65,7 @@ input[type="radio"]::before {
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em rgb(0, 38, 109);
+    box-shadow: inset 1em 1em #004d98;
 }
 
 input[type="radio"]:checked::before {
@@ -71,7 +75,7 @@ input[type="radio"]:checked::before {
 .field-label {
     font-size: clamp(16px, 0.833vw, 0.833vw);
     font-weight: bold;
-    color: rgb(0, 38, 109);
+    color: #004d98;
 }
 
 .options-container {
@@ -86,7 +90,7 @@ input[type="radio"]:checked::before {
 
 button {
     all: unset;
-    background: rgb(0, 38, 109);
+    background: #004d98;
     color: white;
     border-radius: clamp(8px, 0.42vw, 0.42vw);
     padding: clamp(16px, 0.833vw, 0.833vw);
