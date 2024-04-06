@@ -7,6 +7,9 @@ import KML from 'ol/format/KML.js';
 import Vector from "ol/layer/Vector";
 import { Feature } from 'ol';
 
+const API_BASE_URL = "http://localhost:4012";
+const MEASURES_ENDPOINT = "/mapeamento/buscar-peers/";
+
 export type FormValuesType = {
   startAt: string | null,
   endAt: string | null,
@@ -76,17 +79,15 @@ export class AppComponent {
   fetchMeasures = async () => {
     this.loadingMeasures = true;
     const response = await fetch(
-        "http://localhost:4011/mapeamento/buscar-peers/",
-        { method: "POST" }
-      ) as unknown as MockedMeasuresType[];
+      API_BASE_URL + MEASURES_ENDPOINT,
+      { method: "POST" }
+    );
       
-      console.log("response", response);
-      
-      // setTimeout(() => {}, 3000);
-      
-      // this.measures = generateMockedMeasures({});
-      this.measures = response;
-      this.loadingMeasures = false;
+    const fetchedMeasures = await response.json() as MockedMeasuresType[];
+
+    this.measures = fetchedMeasures;
+    this.loadingMeasures = false;
+    this.onSubmitForm(this.formValues);
   }
 
   ngOnInit() {
