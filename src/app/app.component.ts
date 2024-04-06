@@ -34,6 +34,8 @@ export class AppComponent {
   formValues: FormValuesType = formDefaultValues;
   measures: MockedMeasuresType[] = [];
   polygonsLayer: Vector<any> | undefined;
+  loadingMeasures: boolean = false;
+
   constructor(public cdr: ChangeDetectorRef) {}
 
   onSubmitForm = (data: any) => {
@@ -71,7 +73,23 @@ export class AppComponent {
     this.polygonsLayer = newPolygonsLayer;
   }
 
+  fetchMeasures = async () => {
+    this.loadingMeasures = true;
+    const response = await fetch(
+        "http://localhost:4011/mapeamento/buscar-peers/",
+        { method: "POST" }
+      ) as unknown as MockedMeasuresType[];
+      
+      console.log("response", response);
+      
+      // setTimeout(() => {}, 3000);
+      
+      // this.measures = generateMockedMeasures({});
+      this.measures = response;
+      this.loadingMeasures = false;
+  }
+
   ngOnInit() {
-    this.measures = generateMockedMeasures({});
+    this.fetchMeasures();
   }
 }
