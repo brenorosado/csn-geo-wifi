@@ -6,8 +6,14 @@ import { MockedMeasuresType, generateMockedMeasures } from './core/utils/generat
 import KML from 'ol/format/KML.js';
 import Vector from "ol/layer/Vector";
 import { Feature } from 'ol';
+import {
+  DEFAULT_MIN_LATITUDE,
+  DEFAULT_MAX_LATITUDE,
+  DEFAULT_MIN_LONGITUDE,
+  DEFAULT_MAX_LONGITUDE
+} from "./core/utils/generateMockedMeasures";
 
-const API_BASE_URL = "http://localhost:4012";
+const API_BASE_URL = "http://localhost:4011";
 const MEASURES_ENDPOINT = "/mapeamento/buscar-peers/";
 
 export type FormValuesType = {
@@ -85,7 +91,13 @@ export class AppComponent {
       
     const fetchedMeasures = await response.json() as MockedMeasuresType[];
 
-    this.measures = fetchedMeasures;
+    this.measures = fetchedMeasures.filter(
+      ({ latitude, longitude }) => 
+        latitude >= DEFAULT_MIN_LATITUDE &&
+        latitude <= DEFAULT_MAX_LATITUDE &&
+        longitude >= DEFAULT_MIN_LONGITUDE &&
+        longitude <= DEFAULT_MAX_LONGITUDE
+    );
     this.loadingMeasures = false;
     this.onSubmitForm(this.formValues);
   }

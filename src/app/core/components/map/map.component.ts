@@ -90,10 +90,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           extent: [-43.976368616, -20.510904917, -43.824099190, -20.410643808],
           source: new ImageWMS({
             projection: "EPSG:4326",
-            url: 'http://localhost:7070/geoserver/wms',
+            url: 'https://ourobranco.ufsj.edu.br/geoserver/wms',
             params: {
-              // 'LAYERS': 'ne:world'
-              'LAYERS': 'mina_csn:congonhas_2018_2019'
+              'LAYERS': 'mina_csn:mina_csn'
             },
             ratio: 1,
             serverType: 'geoserver',
