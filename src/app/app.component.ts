@@ -12,6 +12,7 @@ import {
   DEFAULT_MIN_LONGITUDE,
   DEFAULT_MAX_LONGITUDE
 } from "./core/utils/generateMockedMeasures";
+import { NgToastModule, NgToastService } from "ng-angular-popup";
 
 const API_BASE_URL = "http://localhost:4011";
 const MEASURES_ENDPOINT = "/mapeamento/buscar-peers/";
@@ -34,7 +35,12 @@ export const formDefaultValues: FormValuesType = {
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, MapComponent, HeaderComponent],
+  imports: [
+    NgToastModule,
+    RouterOutlet,
+    MapComponent,
+    HeaderComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -45,7 +51,10 @@ export class AppComponent {
   polygonsLayer: Vector<any> | undefined;
   loadingMeasures: boolean = false;
 
-  constructor(public cdr: ChangeDetectorRef) {}
+  constructor(
+    private toast: NgToastService,
+    public cdr: ChangeDetectorRef,
+  ) {}
 
   onSubmitForm = (data: any) => {
     this.formValues = {...data};
@@ -83,26 +92,36 @@ export class AppComponent {
   }
 
   fetchMeasures = async () => {
-    this.loadingMeasures = true;
-    const response = await fetch(
-      API_BASE_URL + MEASURES_ENDPOINT,
-      { method: "POST" }
-    );
-      
-    const fetchedMeasures = await response.json() as MockedMeasuresType[];
+    try {
+      this.loadingMeasures = true;
 
-    this.measures = fetchedMeasures.filter(
-      ({ latitude, longitude }) => 
-        latitude >= DEFAULT_MIN_LATITUDE &&
+      const response = await fetch(
+        API_BASE_URL + MEASURES_ENDPOINT,
+        { method: "POST" }
+      );
+      
+      const fetchedMeasures = await response.json() as MockedMeasuresType[];
+      
+      this.measures = fetchedMeasures.filter(
+        ({ latitude, longitude }) => 
+          latitude >= DEFAULT_MIN_LATITUDE &&
         latitude <= DEFAULT_MAX_LATITUDE &&
         longitude >= DEFAULT_MIN_LONGITUDE &&
         longitude <= DEFAULT_MAX_LONGITUDE
-    );
-    this.loadingMeasures = false;
-    this.onSubmitForm(this.formValues);
+      );
+      this.loadingMeasures = false;
+      this.onSubmitForm(this.formValues);
+    } catch (e) {
+      this.toast.error({
+        position: "bottomRight",
+        detail: "Erro",
+        summary: "Ocorreu um erro ao buscar as medidas.",
+        duration: 3000
+      });
+    }
   }
 
-  ngOnInit() {
-    this.fetchMeasures();
+  async ngOnInit() {
+    await this.fetchMeasures();
   }
 }
