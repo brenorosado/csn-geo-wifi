@@ -1,4 +1,4 @@
-import { MockedMeasuresType } from "./generateMockedMeasures";
+import { Measure } from "./generateMockedMeasures";
 
 const GOOD_COST_INFERIOR_LIMIT = 150;
 const REGULAR_COST_INFERIOR_LIMIT = 100;
@@ -12,7 +12,7 @@ export type GatheredMockedMeasures = {
     averageLongitude: number;
     averageCost: number;
     averageRssi: number;
-    measures: MockedMeasuresType[]
+    measures: Measure[]
 }
 
 export type ClassifiedGatheredMeasures = {
@@ -22,7 +22,7 @@ export type ClassifiedGatheredMeasures = {
 }
 
 const calculateAverageCoordinatesAndConnection = (
-    measures: MockedMeasuresType[]
+    measures: Measure[]
 ): {
     averageLatitude: number;
     averageLongitude: number;
@@ -50,7 +50,7 @@ const calculateAverageCoordinatesAndConnection = (
 }
 
 export const gatherCloseMeasures = (
-    measures: MockedMeasuresType[],
+    measures: Measure[],
     precision: number,
     dataType: "custo" | "rssi"
 ): ClassifiedGatheredMeasures => {

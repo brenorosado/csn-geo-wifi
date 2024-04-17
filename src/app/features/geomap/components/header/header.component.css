@@ -1,14 +1,13 @@
 .header-container {
     border-radius: clamp(8px, 0.833vw, 0.833vw);
-    width: calc(100vw - 2 * clamp(8px, 0.833vw, 0.833vw));
+    width: 100%;
     background: lightgray;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: clamp(48px, 2.5vw, 2.5vw);
     overflow: hidden;
-    position: fixed;
-    top: clamp(16px, 0.833vw, 0.833vw);
+    position: absolute;
     z-index: 9999;
     padding: clamp(8px, 0.833vw, 0.833vw);
     box-shadow: 0 0 clamp(4px, 0.42vw, 0.42vw) gray;
@@ -110,9 +109,10 @@ button {
 
 .visibility-button {
     background: gray;
-    position: fixed;
+    position: absolute;
     z-index: 99999;
-    right: clamp(8px, 0.833vw, 0.833vw);
+    top: 0;
+    right: 0;
     padding: clamp(8px, 0.42vw, 0.42vw) clamp(8px, 0.833vw, 0.833vw); 
 }
 

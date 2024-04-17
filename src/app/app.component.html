@@ -1,12 +1,12 @@
-<section class="app-container">
-    <ng-toast></ng-toast>
-    <app-header
-        [onSubmitForm]="onSubmitForm"
-        [onGenerateKMLFile]="onGenerateKMLFile"
-    ></app-header>
-    <app-map
-        [measures]="measures"
-        [formValues]="formValues"
-        [updatePolygonsLayer]="updatePolygonsLayer"
-    ></app-map>
+<section
+    style="
+        margin-left: calc(
+            clamp(56px, 2.9166vw, 2.9166vw) +
+            clamp(16px, 0.833vw, 0.833vw)
+        );
+        padding: clamp(8px, 0.833vw, 0.833vw);
+    "
+>
+    <sidebar />
+    <map-page />
 </section>

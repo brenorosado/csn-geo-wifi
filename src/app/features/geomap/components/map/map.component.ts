@@ -10,9 +10,9 @@ import Polygon from "ol/geom/Polygon";
 import Feature, { FeatureLike } from "ol/Feature";
 import OSM from "ol/source/OSM";
 import ImageLayer from 'ol/layer/Image';
-import { MockedMeasuresType } from '../../utils/generateMockedMeasures';
+import { Measure } from '../../utils/generateMockedMeasures';
 import { gatherCloseMeasures } from '../../utils/handleMeasures';
-import { formDefaultValues, FormValuesType } from '../../../app.component';
+import { formDefaultValues, FormValuesType } from '../../../../app.component';
 import { StyleFunction } from 'ol/style/Style';
 
 const goodConnectionStyle = new Style({
@@ -69,7 +69,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   map: Map | undefined;
 
   @Input() updatePolygonsLayer: undefined | ((m: Vector<any>) => void);
-  @Input() measures: Array<MockedMeasuresType> = [];
+  @Input() measures: Array<Measure> = [];
   @Input() formValues: FormValuesType = formDefaultValues;
 
   ngOnInit(): void {}
@@ -120,7 +120,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     this.addPolygons()
   }
 
-  filterMeasures = ({ timestamp }: MockedMeasuresType) => {
+  filterMeasures = ({ timestamp }: Measure) => {
     const { startAt, endAt } = this.formValues;
 
     if (

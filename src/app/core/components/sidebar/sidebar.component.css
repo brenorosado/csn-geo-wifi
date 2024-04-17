@@ -1,0 +1,70 @@
+.sidebar-container {
+    height: 100vh;
+    position: fixed;
+    left: clamp(16px, 0.833vw, 0.833vw);
+    top: clamp(16px, 0.833vw, 0.833vw);
+    width: clamp(56px, 2.9166vw, 2.9166vw);
+    height: calc(100vh - 2 * clamp(16px, 0.833vw, 0.833vw));
+    z-index: 99999999999;
+}
+
+.sidebar ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 clamp(4px, 0.42vw, 0.42vw) gray;
+    border-radius: clamp(8px, 0.833vw, 0.833vw);
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(32px, 5vh, 5vh);
+    background: lightgray;
+    cursor: pointer;
+    transition: 0.1s;
+    position: relative;
+    
+}
+
+.sidebar ul li:first-child a {
+    border-top-right-radius: clamp(8px, 0.833vw, 0.833vw);
+    border-top-left-radius: clamp(8px, 0.833vw, 0.833vw);
+}
+
+.sidebar ul li:last-child a {
+    border-bottom-right-radius: clamp(8px, 0.833vw, 0.833vw);
+    border-bottom-left-radius: clamp(8px, 0.833vw, 0.833vw);
+}
+
+.sidebar ul li a span {
+    height: clamp(32px, 5vh, 5vh);
+    background: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    position: absolute;
+    border-radius: clamp(8px, 0.833vw, 0.833vw);
+    padding: 0 clamp(8px, 0.833vw, 0.833vw);
+    top: 0;
+    left: calc(
+        clamp(8px, 0.42vw, 0.42vw) +
+        clamp(56px, 2.9166vw, 2.9166vw)
+    );
+    box-shadow: 0 0 clamp(4px, 0.42vw, 0.42vw) gray;
+}
+
+.sidebar ul li a:hover {
+    background: darkgray;
+}
+
+.sidebar ul li a:hover span {
+    display: flex;
+}
+
+.sidebar ul li a {
+    color: #004d98;
+    font-size: clamp(8px, 0.833vw, 0.833vw);
+}

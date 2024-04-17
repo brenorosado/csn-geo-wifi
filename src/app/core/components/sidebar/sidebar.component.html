@@ -1,0 +1,12 @@
+<div class="sidebar-container">
+    <aside class="sidebar">
+        <ul>
+            <li *ngFor="let item of activeSidebarItems">
+                <a target="{{item.url}}">
+                    <span>{{item.title}}</span>
+                    <ng-icon name="{{item.iconName}}"></ng-icon>
+                </a>
+            </li>
+        </ul>
+    </aside>
+</div>

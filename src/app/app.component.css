@@ -1,7 +1,0 @@
-.app-container {
-    height: 100vh;
-    padding: clamp(8px, 0.833vw, 0.833vw);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
