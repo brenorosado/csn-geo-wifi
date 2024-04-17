@@ -21,7 +21,6 @@
     align-items: center;
     justify-content: center;
     height: clamp(32px, 5vh, 5vh);
-    background: lightgray;
     cursor: pointer;
     transition: 0.1s;
     position: relative;
@@ -67,4 +66,12 @@
 .sidebar ul li a {
     color: #004d98;
     font-size: clamp(8px, 0.833vw, 0.833vw);
+}
+
+.not-selected {
+    background: lightgray;
+}
+
+.selected {
+    background: darkgray;
 }

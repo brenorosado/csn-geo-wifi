@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
-import { formDefaultValues } from '../../../../app.component';
+import { formDefaultValues } from '../../pages/map/map.page';
 import { CommonModule } from '@angular/common';
 
 @Component({

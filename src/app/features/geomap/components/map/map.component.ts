@@ -12,7 +12,7 @@ import OSM from "ol/source/OSM";
 import ImageLayer from 'ol/layer/Image';
 import { Measure } from '../../utils/generateMockedMeasures';
 import { gatherCloseMeasures } from '../../utils/handleMeasures';
-import { formDefaultValues, FormValuesType } from '../../../../app.component';
+import { formDefaultValues, FormValuesType } from '../../pages/map/map.page';
 import { StyleFunction } from 'ol/style/Style';
 
 const goodConnectionStyle = new Style({
