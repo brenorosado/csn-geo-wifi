@@ -111,7 +111,6 @@ export class AppComponent {
         longitude <= DEFAULT_MAX_LONGITUDE
       );
       this.loadingMeasures = false;
-      this.onSubmitForm(this.formValues);
     } catch (e) {
       this.toast.error({
         position: "bottomRight",
