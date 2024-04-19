@@ -56,8 +56,9 @@ export class AppComponent {
     public cdr: ChangeDetectorRef,
   ) {}
 
-  onSubmitForm = (data: any) => {
+  onSubmitForm = async (data: any) => {
     this.formValues = {...data};
+    await this.fetchMeasures();
     this.cdr.detectChanges();
   }
 
