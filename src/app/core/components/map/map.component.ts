@@ -112,12 +112,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.formValues = {
-      ...changes['formValues'].currentValue,
-      precision: Number(changes['formValues'].currentValue.precision)
-    };
-
-    this.addPolygons()
+    if (changes['formValues']?.currentValue) {
+      this.formValues = {
+        ...changes['formValues'].currentValue,
+        precision: Number(changes['formValues'].currentValue.precision)
+      };
+      
+      this.addPolygons()
+    }
   }
 
   filterMeasures = ({ timestamp }: MockedMeasuresType) => {
