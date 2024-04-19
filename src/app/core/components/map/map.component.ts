@@ -27,7 +27,7 @@ const goodConnectionStyle = new Style({
 
 const regularConnectionStyle = new Style({
   fill: new Fill({
-    color: "lightyellow"
+    color: "yellow"
   }),
   stroke: new Stroke({
     color: "orange",

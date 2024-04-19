@@ -3,8 +3,8 @@ import { MockedMeasuresType } from "./generateMockedMeasures";
 const GOOD_COST_INFERIOR_LIMIT = 150;
 const REGULAR_COST_INFERIOR_LIMIT = 100;
 
-const GOOD_RSSI_INFERIOR_LIMIT = -50;
-const REGULAR_RSSI_INFERIOR_LIMIT = -80;
+const GOOD_RSSI_INFERIOR_LIMIT = -65;
+const REGULAR_RSSI_INFERIOR_LIMIT = -75;
 
 export type GatheredMockedMeasures = {
     id: number;
