@@ -17,7 +17,7 @@ import { StyleFunction } from 'ol/style/Style';
 
 const goodConnectionStyle = new Style({
   fill: new Fill({
-    color: "lightgreen"
+    color: "rgba(144, 238, 144, 0.4)",
   }),
   stroke: new Stroke({
     color: "green",
@@ -27,7 +27,7 @@ const goodConnectionStyle = new Style({
 
 const regularConnectionStyle = new Style({
   fill: new Fill({
-    color: "yellow"
+    color: "rgba(255, 255, 0, 0.4)"
   }),
   stroke: new Stroke({
     color: "orange",
@@ -37,7 +37,7 @@ const regularConnectionStyle = new Style({
 
 const badConnectionStyle = new Style({
   fill: new Fill({
-    color: "lightcoral"
+    color: "rgba(240, 128, 128, 0.4)"
   }),
   stroke: new Stroke({
     color: "red",

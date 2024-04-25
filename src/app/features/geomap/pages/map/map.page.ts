@@ -16,7 +16,8 @@ import {
   DEFAULT_MIN_LATITUDE,
   DEFAULT_MAX_LATITUDE,
   DEFAULT_MIN_LONGITUDE,
-  DEFAULT_MAX_LONGITUDE
+  DEFAULT_MAX_LONGITUDE,
+  generateMockedMeasures
 } from "../../utils/generateMockedMeasures";
 import { NgToastModule, NgToastService } from "ng-angular-popup";
 import { fetchMeasures } from '../../../../core/services/fetchMeasures';
@@ -30,7 +31,13 @@ export type FormValuesType = {
 
 export const formDefaultValues: FormValuesType = {
   startAt: "2019-01-01T00:00",
-  endAt: "2023-12-31T23:59",
+  endAt: new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate(),
+    20,
+    59
+  ).toISOString().substring(0, 16),
   dataType: "custo",
   precision: "0.001"
 }
@@ -98,6 +105,7 @@ export class MapPage {
         this.loadingMeasures = true;
   
         const fetchedMeasures = await fetchMeasures.list();
+        // const fetchedMeasures = await generateMockedMeasures({});
 
         this.measures = fetchedMeasures.filter(
           ({ latitude, longitude }) => 
