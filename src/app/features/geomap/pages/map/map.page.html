@@ -1,0 +1,11 @@
+<section class="page-container">
+    <app-header
+        [onSubmitForm]="onSubmitForm"
+        [onGenerateKMLFile]="onGenerateKMLFile"
+    ></app-header>
+    <app-map
+        [measures]="measures"
+        [formValues]="formValues"
+        [updatePolygonsLayer]="updatePolygonsLayer"
+    ></app-map>
+</section>

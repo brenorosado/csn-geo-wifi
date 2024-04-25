@@ -1,0 +1,36 @@
+<div class="dataGrid-container">
+    <table class="dataGrid-table">
+        <thead class="dataGrid-thead">
+            <tr>
+                <th *ngFor="let column of columns">
+                {{column.title}}
+                </th>
+            </tr>
+        </thead>
+        <tbody class="dataGrid-tbody">
+            <tr *ngFor="let row of data">
+                <td *ngFor="let column of columns">
+                    {{column?.customRender ?
+                        column?.customRender(row) :
+                        row[column.dataProp]}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="dataGrid-footer">
+        <span>Total de páginas: {{this.totalPages}}</span>
+        <pagination
+            [currentPage]="currentPage"
+            [onPageChange]="onPageChange"
+            [totalPages]="totalPages"
+        ></pagination>
+        <form>
+            <label>Linhas / página</label>
+            <input
+                type="number"
+                value="{{pageSize}}"
+                (input)="onChangePageSize($event)"
+            />
+        </form>
+    </div>
+</div>

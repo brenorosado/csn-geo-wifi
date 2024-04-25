@@ -1,0 +1,15 @@
+<div class="page-container">
+    <div class="header-container">
+        <h3>Equipamentos</h3>
+        <a
+            routerLink="/equipamentos/novo"
+            routerLinkActive="active"
+        >
+            Adicionar
+        </a>
+    </div>
+    <data-grid
+        [columns]="columns"
+        [fetchData]="fetchData"
+    ></data-grid>
+</div>

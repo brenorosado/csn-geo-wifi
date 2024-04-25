@@ -1,0 +1,17 @@
+<div class="pagination-container">
+    <button
+        class="pagination-button"
+        (click)="checkPageChange(currentPage - 1)"
+    >
+        <ng-icon name="bootstrapChevronCompactLeft"></ng-icon>
+    </button>
+    <button class="pagination-button">
+        {{currentPage + 1}}
+    </button>
+    <button
+        class="pagination-button"
+        (click)="checkPageChange(currentPage + 1)"
+    >
+        <ng-icon name="bootstrapChevronCompactRight"></ng-icon>
+    </button>
+</div>

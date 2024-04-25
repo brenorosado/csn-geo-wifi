@@ -9,7 +9,7 @@ export const MIN_COST = 0;
 export const MAX_RSSI = 0;
 export const MIN_RSSI = -110;
 
-export type MockedMeasuresType = {
+export type Measure = {
     idpeer: number;
     timestamp: string;
     latitude: number;
@@ -34,7 +34,7 @@ export type MockedMeasuresType = {
     linkLocalAddress: string;
 }
 
-const mockedMeasuresDefaultValues: MockedMeasuresType = {
+const mockedMeasuresDefaultValues: Measure = {
     idpeer: 0,
     timestamp: "2022-03-27T15:30:00.000Z",
     latitude: 0,
@@ -90,9 +90,9 @@ export const generateMockedMeasures = ({
     startDate?: Date,
     endDate?: Date
 }) => {
-    const data: MockedMeasuresType[] = [];
+    const data: Measure[] = [];
 
-    for (let i = 1; i <= 10000; i++) {
+    for (let i = 1; i <= 584; i++) {
         const timestamp = getRandomDate(startDate, endDate).toISOString();
         const longitude = getRandomNumberInRange(minLongitude, maxLongitude);
         const latitude = getRandomNumberInRange(minLatitude, maxLatitude);
