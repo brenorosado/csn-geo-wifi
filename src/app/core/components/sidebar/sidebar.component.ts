@@ -1,7 +1,11 @@
 import { CommonModule, NgFor } from "@angular/common";
 import { Component } from "@angular/core";
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { bootstrapPinMap, bootstrapTools, bootstrapFileEarmarkRichtext } from '@ng-icons/bootstrap-icons';
+import {
+    bootstrapPinMap,
+    bootstrapTools,
+    bootstrapWifi
+} from '@ng-icons/bootstrap-icons';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 
 type SidebarItem = {
@@ -15,21 +19,21 @@ const sidebarItems: SidebarItem[] = [
     {
         iconName: "bootstrapPinMap",
         title: "Mapa",
-        url: "",
+        url: "/",
         isActive: () => window.location.pathname === "/"
+    },
+    {
+        iconName: "bootstrapWifi",
+        title: "Medidas",
+        url: "/medidas",
+        isActive: () => window.location.pathname.includes("medidas")
     },
     {
         iconName: "bootstrapTools",
         title: "Equipamentos",
         url: "/equipamentos",
         isActive: () => window.location.pathname.includes("equipamentos")
-    },
-    {
-        iconName: "bootstrapFileEarmarkRichtext",
-        title: "Relatórios",
-        url: "/relatorios",
-        isActive: () => window.location.pathname.includes("relatorios")
-    },
+    }
 ]
 
 @Component({
@@ -46,7 +50,7 @@ const sidebarItems: SidebarItem[] = [
         provideIcons({
             bootstrapPinMap,
             bootstrapTools,
-            bootstrapFileEarmarkRichtext
+            bootstrapWifi
         })
     ],
     templateUrl: './sidebar.component.html',

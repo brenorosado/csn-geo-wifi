@@ -16,13 +16,10 @@ import {
   DEFAULT_MIN_LATITUDE,
   DEFAULT_MAX_LATITUDE,
   DEFAULT_MIN_LONGITUDE,
-  DEFAULT_MAX_LONGITUDE,
-  generateMockedMeasures
+  DEFAULT_MAX_LONGITUDE
 } from "../../utils/generateMockedMeasures";
 import { NgToastModule, NgToastService } from "ng-angular-popup";
-
-const API_BASE_URL = "http://localhost:4011";
-const MEASURES_ENDPOINT = "/mapeamento/buscar-peers/";
+import { fetchMeasures } from '../../../../core/services/fetchMeasures';
 
 export type FormValuesType = {
   startAt: string | null,
@@ -100,13 +97,7 @@ export class MapPage {
       try {
         this.loadingMeasures = true;
   
-        // const response = await fetch(
-        //   API_BASE_URL + MEASURES_ENDPOINT,
-        //   { method: "POST" }
-        // );
-        
-        // const fetchedMeasures = await response.json() as Measure[];
-        const fetchedMeasures = generateMockedMeasures({}) as Measure[];
+        const fetchedMeasures = await fetchMeasures.list();
 
         this.measures = fetchedMeasures.filter(
           ({ latitude, longitude }) => 

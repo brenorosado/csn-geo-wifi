@@ -1,0 +1,22 @@
+.pagination-container {
+    display: flex;
+    align-items: center;
+    gap: clamp(4px, 0.42vw, 0.42vw);
+}
+
+.pagination-button {
+    all: unset;
+    background: white;
+    padding: clamp(2px, 0.21vw, 0.21vw);
+    border-radius: clamp(2px, 0.21vw, 0.21vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    min-width: 20px;
+    color: #004d98;
+}
+
+.pagination-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}

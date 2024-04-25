@@ -16,14 +16,3 @@
     color: #004d98;
     font-size: clamp(16px, 1.25vw, 1.25vw);
 }
-
-.header-container a {
-    all: unset;
-    cursor: pointer;
-    background: #004d98;
-    color: white;
-    padding: 
-        clamp(4px, 0.42vw, 0.42vw)
-        clamp(8px, 0.833vw, 0.833vw);
-    border-radius: clamp(8px, 0.42vw, 0.42vw);
-}
