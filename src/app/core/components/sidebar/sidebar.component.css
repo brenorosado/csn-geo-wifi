@@ -8,6 +8,16 @@
     z-index: 99999999999;
 }
 
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.42vw, 0.42vw);
+}
+
+.sidebar img {
+    width: clamp(56px, 2.9166vw, 2.9166vw);
+}
+
 .sidebar ul {
     list-style: none;
     display: flex;

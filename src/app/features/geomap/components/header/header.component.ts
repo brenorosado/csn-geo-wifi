@@ -2,14 +2,22 @@ import { Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { formDefaultValues } from '../../pages/map/map.page';
 import { CommonModule } from '@angular/common';
+import { bootstrapChevronCompactUp } from '@ng-icons/bootstrap-icons';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
 @Component({
   selector: 'app-header',
   standalone: true,
+  viewProviders: [
+    provideIcons({
+      bootstrapChevronCompactUp
+    })
+],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIconComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'

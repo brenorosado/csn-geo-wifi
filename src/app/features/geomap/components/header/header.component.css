@@ -22,10 +22,6 @@
     gap: clamp(8px, 0.42vw, 0.42vw);
 }
 
-.header-field img {
-    width: clamp(144px, 7vw, 7vw);
-}
-
 input[type=datetime-local] {
     all: unset;
     background: white;
@@ -113,7 +109,16 @@ button {
     z-index: 99999;
     top: 0;
     right: 0;
-    padding: clamp(8px, 0.42vw, 0.42vw) clamp(8px, 0.833vw, 0.833vw); 
+    padding: clamp(8px, 0.42vw, 0.42vw); 
+}
+
+.visibility-icon {
+    transition: 0.3s;
+    transform: rotate(180deg);
+}
+
+.rotate {
+    transform: rotate(360deg);
 }
 
 .hidden {

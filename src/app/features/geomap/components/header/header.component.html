@@ -4,9 +4,6 @@
     (ngSubmit)="onSubmit()"
 >
     <div class="header-field">
-        <img src="../../../../assets/csn_logo.png"/>
-    </div>
-    <div class="header-field">
         <label class="field-label">Período</label>
         <div class="options-container">
             <input id="startAt" name="startAt" formControlName="startAt" type="datetime-local" />
@@ -88,4 +85,12 @@
     <button type="submit">Exibir</button>
     <button type="button" (click)="onGenerateKMLFile()">Gerar KML</button>
 </form>
-<button class="visibility-button" (click)="onToggleShowHeader()">Menu</button>
+<button
+    class="visibility-button"
+    (click)="onToggleShowHeader()"
+>
+    <ng-icon
+        [ngClass]="!!showHeader ? 'visibility-icon rotate' : 'visibility-icon'"
+        name="bootstrapChevronCompactUp"
+    ></ng-icon>
+</button>
