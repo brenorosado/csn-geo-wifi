@@ -1,10 +1,10 @@
+import {
+    HIGH_COST_DEFAULT_PARAMETER,
+    HIGH_RSSI_DEFAULT_PARAMETER,
+    REGULAR_COST_DEFAULT_PARAMETER,
+    REGULAR_RSSI_DEFAULT_PARAMETER
+} from "../../configs/pages/config/config.page";
 import { Measure } from "./generateMockedMeasures";
-
-const GOOD_COST_INFERIOR_LIMIT = 150;
-const REGULAR_COST_INFERIOR_LIMIT = 100;
-
-const GOOD_RSSI_INFERIOR_LIMIT = -65;
-const REGULAR_RSSI_INFERIOR_LIMIT = -75;
 
 export type GatheredMockedMeasures = {
     id: number;
@@ -127,6 +127,27 @@ export const classifyGatheredMeasures = (
         );
 
         const averageValue = dataType === "custo" ? averageCost : averageRssi;
+        
+        const GOOD_COST_INFERIOR_LIMIT = Number(
+            localStorage.getItem("config-cost-high") ??
+            HIGH_COST_DEFAULT_PARAMETER
+        );
+
+        const REGULAR_COST_INFERIOR_LIMIT = Number(
+            localStorage.getItem("config-cost-regular") ??
+            REGULAR_COST_DEFAULT_PARAMETER
+        );
+
+        const GOOD_RSSI_INFERIOR_LIMIT = Number(
+            localStorage.getItem("config-rssi-high") ??
+            HIGH_RSSI_DEFAULT_PARAMETER
+        );
+
+        const REGULAR_RSSI_INFERIOR_LIMIT = Number(
+            localStorage.getItem("config-rssi-regular") ??
+            REGULAR_RSSI_DEFAULT_PARAMETER
+        );
+        
         const goodInferiorLimit = dataType === "custo" ?
             GOOD_COST_INFERIOR_LIMIT :
             GOOD_RSSI_INFERIOR_LIMIT;

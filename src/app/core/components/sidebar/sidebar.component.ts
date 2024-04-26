@@ -4,7 +4,8 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
     bootstrapPinMap,
     bootstrapTools,
-    bootstrapWifi
+    bootstrapWifi,
+    bootstrapGear
 } from '@ng-icons/bootstrap-icons';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 
@@ -33,6 +34,12 @@ const sidebarItems: SidebarItem[] = [
         title: "Equipamentos",
         url: "/equipamentos",
         isActive: () => window.location.pathname.includes("equipamentos")
+    },
+    {
+        iconName: "bootstrapGear",
+        title: "Configuração",
+        url: "/configuracao",
+        isActive: () => window.location.pathname.includes("configuracao")
     }
 ]
 
@@ -50,7 +57,8 @@ const sidebarItems: SidebarItem[] = [
         provideIcons({
             bootstrapPinMap,
             bootstrapTools,
-            bootstrapWifi
+            bootstrapWifi,
+            bootstrapGear
         })
     ],
     templateUrl: './sidebar.component.html',

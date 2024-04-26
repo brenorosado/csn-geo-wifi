@@ -1,0 +1,55 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 0.833vw, 0.833vw);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(8px, 0.833vw, 0.833vw);
+    flex-wrap: wrap;
+}
+
+.header-container button {
+    all: unset;
+    cursor: pointer;
+    background: #004d98;
+    color: white;
+    padding: 
+        clamp(4px, 0.42vw, 0.42vw)
+        clamp(8px, 0.833vw, 0.833vw);
+    border-radius: clamp(8px, 0.42vw, 0.42vw);
+}
+
+.header-container h3 {
+    color: #004d98;
+    font-size: clamp(16px, 1.25vw, 1.25vw);
+}
+
+.config-section span {
+    color: #004d98;
+    font-weight: bold;
+}
+
+.options-container {
+    display: flex;
+    gap: clamp(16px, 0.833vw, 0.833vw);
+}
+.options-container div {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.42vw, 0.42vw);
+}
+
+.options-container div label {
+    color: #004d98;
+}
+
+.options-container div input {
+    all: unset;
+    padding: clamp(2px, 0.21vw, 0.21vw);
+    border: 1px solid #004d98;
+    border-radius: clamp(2px, 0.21vw, 0.21vw);
+}

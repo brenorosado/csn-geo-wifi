@@ -3,6 +3,7 @@ import { MapPage } from './features/geomap/pages/map/map.page';
 import { EquipmentListPage } from './features/equipments/pages/equipmentList/equipmentList.page';
 import { EquipmentMergePage } from './features/equipments/pages/equipmentMerge/equipmentMerge.page';
 import { MeasuresListPage } from './features/measures/pages/measuresList/measuresList.page';
+import { ConfigPage } from './features/configs/pages/config/config.page';
 
 export const routes: Routes = [
     {
@@ -24,5 +25,9 @@ export const routes: Routes = [
     {
         path: 'medidas',
         component: MeasuresListPage
+    },
+    {
+        path: 'configuracao',
+        component: ConfigPage
     },
 ];
