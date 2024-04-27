@@ -28,6 +28,13 @@
     font-size: clamp(16px, 1.25vw, 1.25vw);
 }
 
+.configs-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: clamp(24px, 1.25vw, 1.25vw);
+}
+
 .config-section span {
     color: #004d98;
     font-weight: bold;
@@ -36,6 +43,7 @@
 .options-container {
     display: flex;
     gap: clamp(16px, 0.833vw, 0.833vw);
+    flex-wrap: wrap;
 }
 .options-container div {
     display: flex;

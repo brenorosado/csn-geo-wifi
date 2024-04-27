@@ -1,6 +1,6 @@
 import {
-    HIGH_COST_DEFAULT_PARAMETER,
-    HIGH_RSSI_DEFAULT_PARAMETER,
+    GOOD_COST_DEFAULT_PARAMETER,
+    GOOD_RSSI_DEFAULT_PARAMETER,
     REGULAR_COST_DEFAULT_PARAMETER,
     REGULAR_RSSI_DEFAULT_PARAMETER
 } from "../../configs/pages/config/config.page";
@@ -126,46 +126,61 @@ export const classifyGatheredMeasures = (
             precision
         );
 
-        const averageValue = dataType === "custo" ? averageCost : averageRssi;
-        
-        const GOOD_COST_INFERIOR_LIMIT = Number(
-            localStorage.getItem("config-cost-high") ??
-            HIGH_COST_DEFAULT_PARAMETER
-        );
-
-        const REGULAR_COST_INFERIOR_LIMIT = Number(
-            localStorage.getItem("config-cost-regular") ??
-            REGULAR_COST_DEFAULT_PARAMETER
-        );
-
-        const GOOD_RSSI_INFERIOR_LIMIT = Number(
-            localStorage.getItem("config-rssi-high") ??
-            HIGH_RSSI_DEFAULT_PARAMETER
-        );
-
-        const REGULAR_RSSI_INFERIOR_LIMIT = Number(
-            localStorage.getItem("config-rssi-regular") ??
-            REGULAR_RSSI_DEFAULT_PARAMETER
-        );
-        
-        const goodInferiorLimit = dataType === "custo" ?
-            GOOD_COST_INFERIOR_LIMIT :
-            GOOD_RSSI_INFERIOR_LIMIT;
-        const regularInferiorLimit = dataType === "custo" ?
-            REGULAR_COST_INFERIOR_LIMIT :
-            REGULAR_RSSI_INFERIOR_LIMIT;
-
-        if (averageValue >= goodInferiorLimit) {
-            goodCoordinates.push(poligonsPointsCoodinates);
-            return;
-        }
-        
-        if (averageValue >= regularInferiorLimit) {
-            regularCoordinates.push(poligonsPointsCoodinates);
-            return;
+        const costProps = {
+            averageValue: averageCost,
+            goodParameter: Number(
+                localStorage.getItem("config-cost-good") ??
+                GOOD_COST_DEFAULT_PARAMETER
+            ),
+            regularParameter: Number(
+                localStorage.getItem("config-cost-regular") ??
+                REGULAR_COST_DEFAULT_PARAMETER
+            )
         }
 
-        badCoordinates.push(poligonsPointsCoodinates);
+        const classifyCost = () => {
+            // menor = melhor
+            if (costProps.averageValue < costProps.goodParameter) {
+                goodCoordinates.push(poligonsPointsCoodinates);
+                return;
+            }
+
+            if (costProps.averageValue < costProps.regularParameter) {
+                regularCoordinates.push(poligonsPointsCoodinates);
+                return;
+            }
+
+            badCoordinates.push(poligonsPointsCoodinates);
+        }
+
+        const rssiProps = {
+            averageValue: averageRssi,
+            goodParameter: Number(
+                localStorage.getItem("config-rssi-good") ??
+                GOOD_RSSI_DEFAULT_PARAMETER
+            ),
+            regularParameter: Number(
+                localStorage.getItem("config-rssi-regular") ??
+                REGULAR_RSSI_DEFAULT_PARAMETER
+            )
+        }
+
+        const classifyRssi = () => {
+            // maior = melhor
+            if (rssiProps.averageValue > rssiProps.goodParameter) {
+                goodCoordinates.push(poligonsPointsCoodinates);
+                return;
+            }
+
+            if (rssiProps.averageValue > rssiProps.regularParameter) {
+                regularCoordinates.push(poligonsPointsCoodinates);
+                return;
+            }
+
+            badCoordinates.push(poligonsPointsCoodinates);
+        }
+
+        (dataType === "custo" ? classifyCost : classifyRssi)()
     });
 
     return {
