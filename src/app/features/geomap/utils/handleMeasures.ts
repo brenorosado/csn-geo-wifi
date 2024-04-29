@@ -98,10 +98,10 @@ export const getPoligonsPointsCoordinates = (
     precision: number
 ): number[][] => {
     return [
-        [longitude - (precision / 2), latitude + (precision / 2)],
-        [longitude - (precision / 2), latitude - (precision / 2)],
-        [longitude + (precision / 2), latitude - (precision / 2)],
-        [longitude + (precision / 2), latitude + (precision / 2)]
+        [longitude - (precision / 2), latitude + (precision / 2), 0],
+        [longitude - (precision / 2), latitude - (precision / 2), 0],
+        [longitude + (precision / 2), latitude - (precision / 2), 0],
+        [longitude + (precision / 2), latitude + (precision / 2), 0]
     ];
 }
 

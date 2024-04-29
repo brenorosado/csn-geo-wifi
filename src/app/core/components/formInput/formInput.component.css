@@ -1,0 +1,21 @@
+.form-input-container {
+    position: relative;
+    /* border: 1px solid red; */
+}
+
+.form-input-container label {
+    position: absolute;
+    top: calc(-1 * clamp(8px, 0.42vw, 0.42vw));
+    left: clamp(8px, 0.42vw, 0.42vw);
+    background: white;
+    padding: 0 clamp(2px, 0.1vw, 0.1vw);
+    color: #004d98;
+}
+
+.form-input-container input {
+    all: unset;
+    align-items: center;
+    border: 1px solid #004d98;
+    border-radius: clamp(8px, 0.42vw, 0.42vw);
+    padding: clamp(8px, 0.42vw, 0.42vw) clamp(12px, 0.6vw, 0.6vw);
+}

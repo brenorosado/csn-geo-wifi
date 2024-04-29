@@ -104,8 +104,8 @@ export class MapPage {
       try {
         this.loadingMeasures = true;
   
-        const fetchedMeasures = await fetchMeasures.list();
-        // const fetchedMeasures = await generateMockedMeasures({});
+        // const fetchedMeasures = await fetchMeasures.list();
+        const fetchedMeasures = await generateMockedMeasures({});
 
         this.measures = fetchedMeasures.filter(
           ({ latitude, longitude }) => 
