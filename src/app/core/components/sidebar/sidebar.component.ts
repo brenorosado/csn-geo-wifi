@@ -5,6 +5,7 @@ import {
     bootstrapPinMap,
     bootstrapTools,
     bootstrapWifi,
+    bootstrapGear,
     bootstrapBoombox
 } from '@ng-icons/bootstrap-icons';
 import { RouterLink, RouterLinkActive } from "@angular/router";
@@ -27,7 +28,7 @@ const sidebarItems: SidebarItem[] = [
         iconName: "bootstrapWifi",
         title: "Medidas",
         url: "/medidas",
-        isActive: () => window.location.pathname.includes("/medidas")
+        isActive: () => window.location.pathname.includes("medidas")
     },
     {
         iconName: "bootstrapBoombox",
@@ -45,7 +46,13 @@ const sidebarItems: SidebarItem[] = [
         iconName: "bootstrapTools",
         title: "Equipamentos",
         url: "/equipamentos",
-        isActive: () => window.location.pathname.includes("/equipamentos")
+        isActive: () => window.location.pathname.includes("equipamentos")
+    },
+    {
+        iconName: "bootstrapGear",
+        title: "Configuração",
+        url: "/configuracao",
+        isActive: () => window.location.pathname.includes("configuracao")
     }
 ]
 
@@ -64,6 +71,7 @@ const sidebarItems: SidebarItem[] = [
             bootstrapPinMap,
             bootstrapTools,
             bootstrapWifi,
+            bootstrapGear,
             bootstrapBoombox
         })
     ],

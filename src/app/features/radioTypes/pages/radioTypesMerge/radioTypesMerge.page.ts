@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { FormInputComponent } from "../../../../core/components/formInput/formInput.component";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { fetchSystemType } from "../../../../core/services/fetchMeasures";
 import { NgToastModule, NgToastService } from "ng-angular-popup";
@@ -13,8 +12,7 @@ import { Router } from "@angular/router";
     imports: [
         NgToastModule,
         FormsModule,
-        ReactiveFormsModule,
-        FormInputComponent
+        ReactiveFormsModule
     ]
 })
 export class RadioTypesMergePage {

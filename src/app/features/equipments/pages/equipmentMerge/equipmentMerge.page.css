@@ -27,3 +27,9 @@
         clamp(8px, 0.833vw, 0.833vw);
     border-radius: clamp(8px, 0.42vw, 0.42vw);
 }
+
+.page-container form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(16px, 0.833vw, 0.833vw);
+}

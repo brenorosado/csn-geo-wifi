@@ -1,0 +1,26 @@
+<form
+    class="page-container"
+    [formGroup]="formValues"
+    (ngSubmit)="onSubmit()"
+>
+    <div class="header-container">
+        <h3>Configuração</h3>
+        <button>Salvar</button>
+    </div>
+    <div class="configs-container">
+        <div *ngFor="let config of configs" class="config-section">
+            <span>{{config.name}}</span>
+            <div class="options-container">
+                <div *ngFor="let option of config.options">
+                    <label>{{option.level}} ({{config.comparison}}):</label>
+                    <input
+                    id={{option.id}}
+                    name={{option.id}}
+                    formControlName={{option.id}}
+                    type="number"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

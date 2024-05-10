@@ -5,6 +5,7 @@ import { EquipmentMergePage } from './features/equipments/pages/equipmentMerge/e
 import { MeasuresListPage } from './features/measures/pages/measuresList/measuresList.page';
 import { RadioTypesMergePage } from './features/radioTypes/pages/radioTypesMerge/radioTypesMerge.page';
 import { RadioTypesListPage } from './features/radioTypes/pages/radioTypesList/radioTypesList.page';
+import { ConfigPage } from './features/configs/pages/config/config.page';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,10 @@ export const routes: Routes = [
     {
         path: 'medidas',
         component: MeasuresListPage
+    },
+    {
+        path: 'configuracao',
+        component: ConfigPage
     },
     {
         path: 'tipos-radio',

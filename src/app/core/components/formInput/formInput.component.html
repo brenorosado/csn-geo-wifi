@@ -1,9 +1,0 @@
-<div class="formInput-container">
-    <label for="{{name}}">{{label}}</label>
-    <ng-template [ngIf]="!isTextArea">
-        <input id="{{name}}" name="{{name}}" formControlName="{{name}}" />
-    </ng-template>
-    <ng-template [ngIf]="isTextArea">
-        <textarea id="{{name}}" name="{{name}}" formControlName="{{name}}"></textarea>
-    </ng-template>
-</div>
