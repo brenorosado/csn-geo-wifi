@@ -1,7 +1,7 @@
 import { Measure } from "../../features/geomap/utils/generateMockedMeasures";
 
-const API_BASE_URL = "http://localhost:4011";
-const MEASURES_ENDPOINT = "/mapeamento/buscar-peers/";
+const API_BASE_URL = "http://localhost:4011/mapeamento";
+const MEASURES_ENDPOINT = "/buscar-peers/";
 
 export const fetchMeasures = {
     list: async () => {
