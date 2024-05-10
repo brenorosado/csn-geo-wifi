@@ -9,6 +9,6 @@ import { SidebarComponent } from './core/components/sidebar/sidebar.component';
     RouterOutlet,
     SidebarComponent
   ],
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
 })
 export class AppComponent {}

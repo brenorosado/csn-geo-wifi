@@ -1,0 +1,55 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 0.833vw, 0.833vw);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(8px, 0.833vw, 0.833vw);
+    flex-wrap: wrap;
+}
+
+.header-container h3 {
+    color: #004d98;
+    font-size: clamp(16px, 1.25vw, 1.25vw);
+}
+
+.header-container button {
+    all: unset;
+    cursor: pointer;
+    background: #004d98;
+    color: white;
+    padding: 
+        clamp(4px, 0.42vw, 0.42vw)
+        clamp(8px, 0.833vw, 0.833vw);
+    border-radius: clamp(8px, 0.42vw, 0.42vw);
+}
+
+.formInput-container {
+    border: 1px solid red;
+    position: relative;
+    border: 1px solid #004d98;
+    border-radius: clamp(8px, 0.42vw, 0.42vw);
+    display: flex;
+}
+
+.formInput-container label {
+    position: absolute;
+    top: calc(-1 * clamp(8px, 0.42vw, 0.42vw));
+    left: clamp(8px, 0.42vw, 0.42vw);
+    font-size: clamp(12px, 0.833vw, 0.833vw);
+    background: white;
+    padding: 0 clamp(2px, 0.12vw, 0.12vw);
+    color: #004d98;
+}
+
+.formInput-container input, textarea {
+    all: unset;
+    font-size: clamp(12px, 0.833vw, 0.833vw);
+    padding: clamp(10px, 0.6vw, 0.6vw) clamp(16px, 0.83vw, 0.83vw);
+    flex: 1;
+    border-radius: clamp(8px, 0.42vw, 0.42vw);
+}

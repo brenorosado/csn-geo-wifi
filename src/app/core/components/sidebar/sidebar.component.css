@@ -63,6 +63,7 @@
         clamp(56px, 2.9166vw, 2.9166vw)
     );
     box-shadow: 0 0 clamp(4px, 0.42vw, 0.42vw) gray;
+    white-space: nowrap; 
 }
 
 .sidebar ul li a:hover {

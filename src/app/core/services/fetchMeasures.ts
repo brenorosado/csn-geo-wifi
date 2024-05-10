@@ -15,3 +15,23 @@ export const fetchMeasures = {
         return fetchedMeasures;
     }
 }
+
+export const fetchSystemType = {
+    create: (body: Partial<{ description: string | null; }>) => {
+        return fetch(
+            API_BASE_URL + "/systemtype",
+            { method: "POST", body: JSON.stringify(body) }
+        );
+    },
+
+    list: async () => {
+        const response = await fetch(
+            API_BASE_URL + "/systemtype/id/",
+            { method: "POST" }
+        );
+          
+        const fetchedMeasures = await response.json() as any[];
+
+        return fetchedMeasures;
+    }
+}
