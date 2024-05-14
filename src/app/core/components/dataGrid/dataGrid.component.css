@@ -11,7 +11,7 @@
 }
 
 .dataGrid-thead tr th {
-    padding: clamp(4px, 0.833vw, 0.833vw) 0;
+    padding: clamp(4px, 0.833vw, 0.833vw);
     background: #004d98;
     color: white;
 }

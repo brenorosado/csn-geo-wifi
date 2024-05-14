@@ -1,0 +1,15 @@
+<form
+    class="page-container"
+    [formGroup]="radioForm"
+    (ngSubmit)="onSubmit()"
+>
+    <div class="header-container">
+        <h3>Rádio</h3>
+        <button type="submit">Salvar</button>
+    </div>
+    <div class="formInput-container">
+        <label for="description">Descrição</label>
+        <textarea id="description" name="description" formControlName="description">   
+        </textarea>
+    </div>
+</form>

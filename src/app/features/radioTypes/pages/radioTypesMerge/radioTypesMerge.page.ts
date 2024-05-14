@@ -19,9 +19,8 @@ export class RadioTypesMergePage {
     constructor(
         private toast: NgToastService,
         private router: Router
-      ) {}
+    ) {}
     
-
     radioTypeForm = new FormGroup({
         description: new FormControl("")
     });
