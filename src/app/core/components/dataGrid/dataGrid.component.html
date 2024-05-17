@@ -10,6 +10,22 @@
         <tbody class="dataGrid-tbody">
             <tr *ngFor="let row of data">
                 <td *ngFor="let column of columns">
+                    <ng-template [ngIf]="column.isActions">
+                        <div class="actions-container">
+                            <button
+                                title="Excluir"
+                                (click)="column?.onDelete(row)"
+                            >
+                                <ng-icon name="bootstrapTrash"></ng-icon>
+                            </button>
+                            <button
+                                title="Editar"
+                                (click)="column?.onEdit(row)"
+                            >
+                                <ng-icon name="bootstrapPencil"></ng-icon>
+                            </button>
+                        </div>
+                    </ng-template>
                     {{column?.customRender ?
                         column?.customRender(row) :
                         row[column.dataProp]}}

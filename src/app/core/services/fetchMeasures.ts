@@ -7,30 +7,13 @@ export const fetchMeasures = {
     list: async () => {
         const response = await fetch(
             API_BASE_URL + MEASURES_ENDPOINT,
-            { method: "POST" }
+            { 
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' }
+            }
         );
           
         const fetchedMeasures = await response.json() as Measure[];
-
-        return fetchedMeasures;
-    }
-}
-
-export const fetchSystemType = {
-    create: (body: Partial<{ description: string | null; }>) => {
-        return fetch(
-            API_BASE_URL + "/systemtype",
-            { method: "POST", body: JSON.stringify(body) }
-        );
-    },
-
-    list: async () => {
-        const response = await fetch(
-            API_BASE_URL + "/systemtype/id/",
-            { method: "POST" }
-        );
-          
-        const fetchedMeasures = await response.json() as any[];
 
         return fetchedMeasures;
     }

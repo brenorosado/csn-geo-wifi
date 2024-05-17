@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { Column, DataGridComponent } from "../../../../core/components/dataGrid/dataGrid.component";
-import { fetchSystemType } from "../../../../core/services/fetchMeasures";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { fetchSystemType } from "../../../../core/services/fetchSystemTypes";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
     selector: 'radio-types-list-page',
@@ -17,6 +17,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 export class RadioTypesListPage {
     constructor(
         public cdr: ChangeDetectorRef,
+        private router: Router
     ) {}
     
     systemTypes: any[] = [];
@@ -25,6 +26,13 @@ export class RadioTypesListPage {
     columns: Column[] = [
         { title: "ID", dataProp: "idsystemtype" },
         { title: "Descrição", dataProp: "description" },
+        { 
+            title: "Ações", 
+            dataProp: "actions",
+            isActions: true,
+            onDelete: (data) => console.log("delete data", data),
+            onEdit: (data) => this.router.navigate([`/tipos-radio/${data.idsystemtype}`])
+        },
     ]
 
     async ngOnInit() {
@@ -34,7 +42,17 @@ export class RadioTypesListPage {
     }
 
     getSystemTypes = async () => {
-        const fetchedSystemTypes = await fetchSystemType.list();
+        // const fetchedSystemTypes = await fetchSystemType.list();
+        const fetchedSystemTypes = [
+            {
+                idsystemtype: 1,
+                description: "teste 1",
+            },
+            {
+                idsystemtype: 2,
+                description: "teste 2",
+            }
+        ];
         this.systemTypes = fetchedSystemTypes;
     }
 

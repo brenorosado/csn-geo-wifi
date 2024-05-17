@@ -79,3 +79,29 @@
     color: #004d98;
     width: clamp(40px, 5.33vw, 5.33vw);
 }
+
+.actions-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 0.83vw, 0.83vw);
+}
+
+.actions-container button {
+    all: unset;
+    cursor: pointer;
+    padding: clamp(4px, 0.42vw, 0.42vw);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.actions-container button:first-child {
+    background: red;
+}
+
+.actions-container button:last-child {
+    background: #004d98;
+}

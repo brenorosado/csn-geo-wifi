@@ -1,6 +1,11 @@
-import { NgFor } from "@angular/common";
-import { Component, Input, SimpleChange, SimpleChanges } from "@angular/core";
+import { NgFor, NgIf } from "@angular/common";
+import { Component, Input, SimpleChanges } from "@angular/core";
 import { PaginationComponent } from "../pagination/pagination.component";
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import {
+    bootstrapTrash,
+    bootstrapPencil
+} from '@ng-icons/bootstrap-icons';
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -8,6 +13,9 @@ export type Column = {
     title: string;
     dataProp: string;
     customRender?: (data: any) => string;
+    isActions?: boolean;
+    onDelete?: (data: any) => void;
+    onEdit?: (data: any) => void;
 }
 
 @Component({
@@ -16,9 +24,17 @@ export type Column = {
     templateUrl: './dataGrid.component.html',
     styleUrl: './dataGrid.component.css',
     imports: [
+        NgIconComponent,
         NgFor,
+        NgIf,
         PaginationComponent
-    ]
+    ],
+    viewProviders: [
+        provideIcons({
+            bootstrapTrash,
+            bootstrapPencil
+        })
+    ],
 })
 export class DataGridComponent {
     @Input('columns') columns: Column[] = [];
