@@ -104,9 +104,8 @@ export class MapPage {
       try {
         this.loadingMeasures = true;
   
-        // const fetchedMeasures = await fetchMeasures.list();
-        const fetchedMeasures = await generateMockedMeasures({});
-
+        const fetchedMeasures = await fetchMeasures.list();
+        
         this.measures = fetchedMeasures.filter(
           ({ latitude, longitude }) => 
             latitude >= DEFAULT_MIN_LATITUDE &&

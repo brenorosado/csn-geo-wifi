@@ -8,3 +8,11 @@
         [fetchData]="fetchData"
     ></data-grid>
 </div>
+<ng-template [ngIf]="!!idToDelete">
+    <modal
+        [title]="'Confirmação'"
+        [message]="'Tem certeza que deseja excluir o tipo de rádio?'"
+        [onClose]="onCloseModal"
+        [onConfirm]="onConfirmDelete"
+    ></modal>
+</ng-template>

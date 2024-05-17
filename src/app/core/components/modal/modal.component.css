@@ -1,0 +1,61 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
+    width: 100vdw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999999999999999999999999;
+}
+
+.modal-container {
+    width: clamp(300px, 20vw, 20vw);
+}
+
+.modal-header {
+    background: #004d98;
+    color: white;
+    padding: clamp(8px, 0.42vw, 0.42vw) clamp(16px, 0.833vw, 0.833vw);
+    border-top-right-radius: clamp(16px, 0.833vw, 0.833vw);
+    border-top-left-radius: clamp(16px, 0.833vw, 0.833vw);
+    font-size: clamp(16px, 0.833vw, 0.833vw);
+}
+
+.modal-content {
+    background: white;
+    padding: clamp(16px, 0.833vw, 0.833vw);
+    font-size: clamp(16px, 0.833vw, 0.833vw);
+}
+
+.modal-footer {
+    background: #004d98;
+    color: white;
+    padding: clamp(8px, 0.42vw, 0.42vw) clamp(16px, 0.833vw, 0.833vw);
+    border-bottom-right-radius: clamp(16px, 0.833vw, 0.833vw);
+    border-bottom-left-radius: clamp(16px, 0.833vw, 0.833vw);
+    font-size: clamp(16px, 0.833vw, 0.833vw);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(16px, 0.833vw, 0.833vw);
+}
+
+.modal-footer button {
+    all: unset;
+    cursor: pointer;
+    background: #004d98;
+    color: white;
+    padding: clamp(4px, 0.21vw, 0.21vw) clamp(8px, 0.42vw, 0.42vw);
+    border-radius: clamp(4px, 0.21vw, 0.21vw);
+    border: 1px solid white;
+}
+
+.modal-footer button:first-child {
+    background: red;
+    color: white;
+}

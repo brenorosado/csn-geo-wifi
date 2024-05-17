@@ -50,5 +50,15 @@ export const fetchSystemType = {
         const fetchedSystemTypes = await response.json();
 
         return fetchedSystemTypes;
+    },
+
+    deleteById: (id: string) => {
+        return fetch(
+            API_BASE_URL + "/systemtype/id/" + id,
+            { 
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
     }
 }
