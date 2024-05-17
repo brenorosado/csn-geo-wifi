@@ -29,7 +29,7 @@ export class RadioTypesListPage {
 
     async ngOnInit() {
         await this.getSystemTypes();
-        this.fetchData = this.getSystemTypes;
+        this.fetchData = this.getTableSystemTypes;
         this.cdr.detectChanges();
     }
 
