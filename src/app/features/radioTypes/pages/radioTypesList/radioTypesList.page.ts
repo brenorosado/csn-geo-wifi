@@ -42,17 +42,17 @@ export class RadioTypesListPage {
     }
 
     getSystemTypes = async () => {
-        // const fetchedSystemTypes = await fetchSystemType.list();
-        const fetchedSystemTypes = [
-            {
-                idsystemtype: 1,
-                description: "teste 1",
-            },
-            {
-                idsystemtype: 2,
-                description: "teste 2",
-            }
-        ];
+        const fetchedSystemTypes = await fetchSystemType.list();
+        // const fetchedSystemTypes = [
+        //     {
+        //         idsystemtype: 1,
+        //         description: "teste 1",
+        //     },
+        //     {
+        //         idsystemtype: 2,
+        //         description: "teste 2",
+        //     }
+        // ];
         this.systemTypes = fetchedSystemTypes;
     }
 
