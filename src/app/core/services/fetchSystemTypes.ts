@@ -54,7 +54,7 @@ export const fetchSystemType = {
 
     deleteById: (id: string) => {
         return fetch(
-            API_BASE_URL + "/systemtype/id/" + id,
+            API_BASE_URL + "/systemtype/" + id,
             { 
                 method: "DELETE",
                 headers: { 'Content-Type': 'application/json' },

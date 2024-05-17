@@ -55,6 +55,8 @@ export class RadioTypesListPage {
             const response = await fetchSystemType.deleteById(this.idToDelete as string);
 
             if ([201, 200].includes(response.status)) {
+                this.fetchData = undefined;
+                this.cdr.detectChanges();
                 const newSystemTypes = [...this.systemTypes];
                 const indexToDelete = newSystemTypes.findIndex(
                     (systemType) => systemType.idsystemtype === this.idToDelete
@@ -62,8 +64,9 @@ export class RadioTypesListPage {
                 if (indexToDelete !== -1) {
                     newSystemTypes.splice(indexToDelete, 1);
                     this.systemTypes = newSystemTypes;
-                    this.cdr.detectChanges();
                 }
+                this.fetchData = this.getTableSystemTypes;
+                this.cdr.detectChanges();
             }
         } catch (e) {
             this.toast.error({
