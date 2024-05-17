@@ -16,7 +16,7 @@ export const fetchSystemType = {
         return fetch(
             API_BASE_URL + "/systemtype" + `/${id}`,
             { 
-                method: "POST",
+                method: "PUT",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
             }
@@ -39,15 +39,16 @@ export const fetchSystemType = {
 
     getById: async (id: string) => {
         const response = await fetch(
-            API_BASE_URL + "/systemtype/id/" + id,
+            API_BASE_URL + "/systemtype/id/",
             { 
                 method: "POST",
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
             }
         );
           
-        const fetchedSystemTypes = await response.json() as any[];
+        const fetchedSystemTypes = await response.json();
 
-        return fetchedSystemTypes[0];
+        return fetchedSystemTypes;
     }
 }
