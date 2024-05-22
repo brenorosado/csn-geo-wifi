@@ -65,11 +65,34 @@ export class RadiosMergePage {
     onSubmit = async () => {
         const formValues = this.radioForm.value;
 
+        const payload = {
+            ...formValues,
+            uptime: formValues.uptime ? parseFloat(formValues.uptime) : null,
+            idle: formValues.idle ? parseFloat(formValues.idle) : null,
+            running: formValues.running ? parseInt(formValues.running) : null,
+            bridgeup: formValues.bridgeup ? parseInt(formValues.bridgeup) : null,
+            freeMemory: formValues.freeMemory ? parseInt(formValues.freeMemory) : null,
+            generateEntropy: formValues.generateEntropy ? parseInt(formValues.generateEntropy) : null,
+            factoryMode: formValues.factoryMode ? parseInt(formValues.factoryMode) : null,
+            networkId: formValues.networkId ? parseInt(formValues.networkId) : null,
+            encapId: formValues.encapId ? parseInt(formValues.encapId) : null,
+            locked: formValues.locked ? parseInt(formValues.locked) : null,
+            reboot: formValues.reboot ? parseInt(formValues.reboot) : null,
+            temperature: formValues.temperature ? parseInt(formValues.temperature) : null,
+            isRebooting: formValues.isRebooting ? parseInt(formValues.isRebooting) : null,
+            bootCounter: formValues.bootCounter ? parseInt(formValues.bootCounter) : null,
+        }
+
+        Object.entries(payload).forEach(([key, value]) => {
+            // @ts-ignore
+            if (value === "") delete payload[key];
+        })
+
         try {
             const response = await (
                 this.id ?
-                    fetchSystems.update(this.id as string, formValues) :
-                    fetchSystems.create(formValues)
+                    fetchSystems.update(this.id as string, payload) :
+                    fetchSystems.create(payload)
             );
             if ([201, 200].includes(response.status)) {
                 this.router.navigate(['/radios']);
