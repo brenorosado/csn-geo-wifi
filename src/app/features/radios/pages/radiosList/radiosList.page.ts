@@ -78,10 +78,42 @@ export class RadiosListPage {
         private router: Router
     ) {}
 
+    async ngOnInit() {
+        await this.getSystems();
+        this.fetchData = this.getTableSystems;
+        this.cdr.detectChanges();
+    }
+
     onCloseModal = () => this.idToDelete = undefined;
 
     onConfirmDelete = async () => {
-        
+        try {
+            const response = await fetchSystems.deleteById(this.idToDelete as string);
+
+            if ([201, 200].includes(response.status)) {
+                this.fetchData = undefined;
+                this.cdr.detectChanges();
+                const newSystems = [...this.systems];
+                const indexToDelete = newSystems.findIndex(
+                    (systemType) => systemType.idsystemtype === this.idToDelete
+                );
+                if (indexToDelete !== -1) {
+                    newSystems.splice(indexToDelete, 1);
+                    this.systems = newSystems;
+                }
+                this.fetchData = this.getTableSystems;
+                this.cdr.detectChanges();
+            }
+        } catch (e) {
+            this.toast.error({
+                position: "bottomRight",
+                detail: "Erro",
+                summary: "Ocorreu um erro ao excluir o tipo de rádio.",
+                duration: 3000
+            });
+        } finally {
+            this.idToDelete = undefined;
+        }
     }
 
     getSystems = async () => {
