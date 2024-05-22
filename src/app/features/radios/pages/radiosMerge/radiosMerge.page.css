@@ -1,11 +1,12 @@
 .page-container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: clamp(8px, 0.833vw, 0.833vw);
 }
 
 .header-container {
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
     gap: clamp(8px, 0.833vw, 0.833vw);

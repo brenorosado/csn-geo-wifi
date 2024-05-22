@@ -21,15 +21,9 @@ import { NgToastModule, NgToastService } from "ng-angular-popup";
     ]
 })
 export class RadioTypesListPage {
-    constructor(
-        public cdr: ChangeDetectorRef,
-        private toast: NgToastService,
-        private router: Router
-    ) {}
     idToDelete: string | number | undefined = "";
     systemTypes: any[] = [];
     fetchData: undefined | Function = undefined;
-
     columns: Column[] = [
         { title: "ID", dataProp: "idsystemtype" },
         { title: "Descrição", dataProp: "description" },
@@ -40,7 +34,14 @@ export class RadioTypesListPage {
             onDelete: (data) => this.idToDelete = data.idsystemtype,
             onEdit: (data) => this.router.navigate([`/tipos-radio/${data.idsystemtype}`])
         },
-    ]
+    ];
+
+    constructor(
+        public cdr: ChangeDetectorRef,
+        private toast: NgToastService,
+        private router: Router
+    ) {}
+
 
     async ngOnInit() {
         await this.getSystemTypes();

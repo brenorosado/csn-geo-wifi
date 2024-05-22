@@ -1,6 +1,9 @@
-import { Component } from "@angular/core";
+import { ChangeDetectorRef, Component } from "@angular/core";
 import { Column, DataGridComponent } from "../../../../core/components/dataGrid/dataGrid.component";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
+import { NgToastModule, NgToastService } from "ng-angular-popup";
+import { ModalComponent } from "../../../../core/components/modal/modal.component";
+import { fetchSystems } from "../../../../core/services/fetchSystems";
 
 @Component({
     selector: 'radios-list-page',
@@ -8,12 +11,17 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
     templateUrl: './radiosList.page.html',
     styleUrl: './radiosList.page.css',
     imports: [
+        NgToastModule,
         DataGridComponent,
         RouterLink,
-        RouterLinkActive
+        RouterLinkActive,
+        ModalComponent
     ]
 })
 export class RadiosListPage {
+    idToDelete: string | number | undefined = "";
+    systems: any[] = [];
+    fetchData: undefined | Function = undefined;
     columns: Column[] = [
         {
             title: "ID",
@@ -28,38 +36,6 @@ export class RadiosListPage {
             dataProp: "platform",
         },
         {
-            title: "Uptime",
-            dataProp: "uptime",
-        },
-        {
-            title: "Idle",
-            dataProp: "idle",
-        },
-        {
-            title: "Running",
-            dataProp: "running",
-        },
-        {
-            title: "Bridgeup",
-            dataProp: "bridgeup",
-        },
-        {
-            title: "Versão",
-            dataProp: "version",
-        },
-        {
-            title: "Memória libre",
-            dataProp: "freeMemory",
-        },
-        {
-            title: "Generate Entropy",
-            dataProp: "generateEntropy",
-        },
-        {
-            title: "Factory Mode",
-            dataProp: "factoryMode",
-        },
-        {
             title: "Network ID",
             dataProp: "networkId",
         },
@@ -68,7 +44,7 @@ export class RadiosListPage {
             dataProp: "ipv4address",
         },
         {
-            title: "subnet",
+            title: "Subnet",
             dataProp: "subnet",
         },
         {
@@ -84,41 +60,55 @@ export class RadiosListPage {
             dataProp: "ipv6address",
         },
         {
-            title: "encapId",
-            dataProp: "encapId",
-        },
-        {
-            title: "locked",
-            dataProp: "locked",
-        },
-        {
-            title: "reboot",
-            dataProp: "reboot",
-        },
-        {
-            title: "legacyPlatform",
-            dataProp: "legacyPlatform",
-        },
-        {
-            title: "temperature",
-            dataProp: "temperature",
-        },
-        {
-            title: "isRebooting",
-            dataProp: "isRebooting",
-        },
-        {
-            title: "bootCounter",
-            dataProp: "bootCounter",
-        },
-        {
             title: "idsystemtype_fk",
             dataProp: "idsystemtype_fk",
         },
         {
-            title: "idequipament_fk",
-            dataProp: "idequipament_fk",
+            title: "Ações",
+            dataProp: "actions",
+            isActions: true,
+            onDelete: (data) => this.idToDelete = data.idsystem,
+            onEdit: (data) => this.router.navigate([`/radios/${data.idsystem}`]),
         }
     ];
-    fetchData = undefined;
+
+    constructor(
+        public cdr: ChangeDetectorRef,
+        private toast: NgToastService,
+        private router: Router
+    ) {}
+
+    onCloseModal = () => this.idToDelete = undefined;
+
+    onConfirmDelete = async () => {
+        
+    }
+
+    getSystems = async () => {
+        try {
+            const fetchedSystemTypes = await fetchSystems.list();
+            this.systems = fetchedSystemTypes;
+        } catch (e) {
+            this.toast.error({
+                position: "bottomRight",
+                detail: "Erro",
+                summary: "Ocorreu um erro ao buscar os tipos de rádio.",
+                duration: 3000
+            });
+        }
+    }
+
+    getTableSystems = (params: any) => {
+        const { page, pageSize } = params;
+        
+        const newTableData = this.systems.slice(
+            page * pageSize,
+            (page + 1) * pageSize
+        );
+
+        return {
+            content: newTableData,
+            totalPages: Math.ceil(this.systems.length / pageSize)
+        };
+    }
 }
