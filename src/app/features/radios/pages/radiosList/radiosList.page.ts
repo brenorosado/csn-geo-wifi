@@ -84,7 +84,10 @@ export class RadiosListPage {
     ) {}
 
     async ngOnInit() {
-        await Promise.all([this.getSystems, this.getRadioTypeOptions]);
+        await Promise.all([
+            this.getSystems(),
+            this.getRadioTypeOptions()
+        ]);
         this.fetchData = this.getTableSystems;
         this.cdr.detectChanges();
     }
