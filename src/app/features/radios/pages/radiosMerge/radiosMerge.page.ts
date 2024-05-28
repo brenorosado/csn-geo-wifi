@@ -3,6 +3,8 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angul
 import { NgToastModule, NgToastService } from "ng-angular-popup";
 import { ActivatedRoute, Router } from "@angular/router";
 import { fetchSystems } from "../../../../core/services/fetchSystems";
+import { fetchSystemType } from "../../../../core/services/fetchSystemTypes";
+import { NgFor } from "@angular/common";
 
 @Component({
     selector: 'radios-merge-page',
@@ -11,7 +13,8 @@ import { fetchSystems } from "../../../../core/services/fetchSystems";
     styleUrl: './radiosMerge.page.css',
     imports: [
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgFor
     ],
 })
 export class RadiosMergePage {
@@ -22,6 +25,7 @@ export class RadiosMergePage {
     ) {}
 
     id: string | number | undefined = "";
+    radioTypeOptions: { label: string, value: string }[] = [];
 
     radioForm = new FormGroup({
         platform: new FormControl(""),
@@ -51,10 +55,21 @@ export class RadiosMergePage {
     });
 
     ngOnInit() {
+        this.getRadioTypeOptions();
         this.routeSub.params.subscribe(params => this.initialLoad(params['id'] as string));
     }
 
+    getRadioTypeOptions = async () => {
+        const fetchedSystemTypes = await fetchSystemType.list();
+        this.radioTypeOptions = fetchedSystemTypes.map(
+            ({ idsystemtype, description }) => ({
+                label: description, value: idsystemtype
+            })
+        );
+    }
+
     initialLoad = async (id: string) => {
+        if (!id) return;
         const fetchedSystemType = await fetchSystems.getById(id);
         if (fetchedSystemType) {
             this.radioForm.patchValue(fetchedSystemType);

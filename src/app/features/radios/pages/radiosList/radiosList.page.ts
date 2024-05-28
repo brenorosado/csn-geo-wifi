@@ -4,6 +4,8 @@ import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { NgToastModule, NgToastService } from "ng-angular-popup";
 import { ModalComponent } from "../../../../core/components/modal/modal.component";
 import { fetchSystems } from "../../../../core/services/fetchSystems";
+import { NgIf } from "@angular/common";
+import { fetchSystemType } from "../../../../core/services/fetchSystemTypes";
 
 @Component({
     selector: 'radios-list-page',
@@ -15,13 +17,15 @@ import { fetchSystems } from "../../../../core/services/fetchSystems";
         DataGridComponent,
         RouterLink,
         RouterLinkActive,
-        ModalComponent
+        ModalComponent,
+        NgIf
     ]
 })
 export class RadiosListPage {
     idToDelete: string | number | undefined = "";
     systems: any[] = [];
     fetchData: undefined | Function = undefined;
+    radioTypeOptions: { label: string, value: string }[] = [];
     columns: Column[] = [
         {
             title: "ID",
@@ -60,8 +64,9 @@ export class RadiosListPage {
             dataProp: "ipv6address",
         },
         {
-            title: "idsystemtype_fk",
+            title: "Tipo de rádio",
             dataProp: "idsystemtype_fk",
+            customRender: ({ idsystemtype_fk }) => this.radioTypeOptions.find(({ value }) => value === idsystemtype_fk)?.label ?? "-"
         },
         {
             title: "Ações",
@@ -79,10 +84,20 @@ export class RadiosListPage {
     ) {}
 
     async ngOnInit() {
-        await this.getSystems();
+        await Promise.all([this.getSystems, this.getRadioTypeOptions]);
         this.fetchData = this.getTableSystems;
         this.cdr.detectChanges();
     }
+
+    getRadioTypeOptions = async () => {
+        const fetchedSystemTypes = await fetchSystemType.list();
+        this.radioTypeOptions = fetchedSystemTypes.map(
+            ({ idsystemtype, description }) => ({
+                label: description, value: idsystemtype
+            })
+        );
+    }
+
 
     onCloseModal = () => this.idToDelete = undefined;
 

@@ -96,10 +96,25 @@
         <input id="bootCounter" type="number" name="bootCounter" formControlName="bootCounter" />
     </div>
     <div class="formInput-container">
-        <label for="idsystemtype_fk">idsystemtype_fk</label>
-        <input id="idsystemtype_fk" type="number" name="idsystemtype_fk" formControlName="idsystemtype_fk" />
+        <label for="idsystemtype_fk">Tipo de rádio</label>
+        <!-- <input id="idsystemtype_fk" type="number" name="idsystemtype_fk" formControlName="idsystemtype_fk" /> -->
+        <select
+            id="idsystemtype_fk"
+            name="idsystemtype_fk"
+            formControlName="idsystemtype_fk"
+        >
+            <option value={{null}}>Selecione o tipo de rádio</option>
+            <ng-template
+                ngFor
+                let-item
+                [ngForOf]="radioTypeOptions"
+                let-i="index"
+            >
+                <option value={{item.value}}>{{item.label}}</option>
+            </ng-template>
+        </select>
     </div>
-    <div class="formInput-container" style="width: 100%;">
+    <div class="formInput-container" style="min-width: 100%;">
         <label for="description">Descrição</label>
         <textarea id="description" name="description" formControlName="description">   
         </textarea>
