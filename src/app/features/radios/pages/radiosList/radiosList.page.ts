@@ -66,7 +66,9 @@ export class RadiosListPage {
         {
             title: "Tipo de rádio",
             dataProp: "idsystemtype_fk",
-            customRender: ({ idsystemtype_fk }) => this.radioTypeOptions.find(({ value }) => value === idsystemtype_fk)?.label ?? "-"
+            customRender: ({ idsystemtype_fk }) =>
+                this.radioTypeOptions.find(({ value }) => Number(value) === Number(idsystemtype_fk))?.label
+                ?? "-"
         },
         {
             title: "Ações",
