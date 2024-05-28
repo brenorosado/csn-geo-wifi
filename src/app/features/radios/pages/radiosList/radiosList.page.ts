@@ -115,7 +115,7 @@ export class RadiosListPage {
                 this.cdr.detectChanges();
                 const newSystems = [...this.systems];
                 const indexToDelete = newSystems.findIndex(
-                    (systemType) => systemType.idsystemtype === this.idToDelete
+                    (systemType) => systemType.idsystem === this.idToDelete
                 );
                 if (indexToDelete !== -1) {
                     newSystems.splice(indexToDelete, 1);
