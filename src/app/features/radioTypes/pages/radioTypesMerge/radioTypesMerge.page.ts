@@ -55,7 +55,7 @@ export class RadioTypesMergePage {
             console.log("error", e);
             this.toast.error({
                 detail: "Erro",
-                summary: "Ocorreu um erro ao criar o tipo de rádio.",
+                summary: `Ocorreu um erro ao ${this.id ? "editar" : "criar"} o tipo de rádio.`,
                 duration: 3000
             })
         }

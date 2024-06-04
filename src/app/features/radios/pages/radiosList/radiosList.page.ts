@@ -103,7 +103,6 @@ export class RadiosListPage {
         );
     }
 
-
     onCloseModal = () => this.idToDelete = undefined;
 
     onConfirmDelete = async () => {
@@ -128,7 +127,7 @@ export class RadiosListPage {
             this.toast.error({
                 position: "bottomRight",
                 detail: "Erro",
-                summary: "Ocorreu um erro ao excluir o tipo de rádio.",
+                summary: "Ocorreu um erro ao excluir o rádio.",
                 duration: 3000
             });
         } finally {
@@ -144,7 +143,7 @@ export class RadiosListPage {
             this.toast.error({
                 position: "bottomRight",
                 detail: "Erro",
-                summary: "Ocorreu um erro ao buscar os tipos de rádio.",
+                summary: "Ocorreu um erro ao buscar os rádios.",
                 duration: 3000
             });
         }

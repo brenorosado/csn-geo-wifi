@@ -1,8 +1,37 @@
-<div class="page-container">
+<form
+    class="page-container"
+    [formGroup]="equipmentForm"
+    (ngSubmit)="onSubmit()"
+>
     <div class="header-container">
-        <h3>Equipamento</h3>
-        <a>Salvar</a>
+        <h3>Equipamento {{id}}</h3>
+        <button type="submit">Salvar</button>
     </div>
-    <form>
-    </form>
-</div>
+    <div class="formInput-container">
+        <label for="sigla">Sigla</label>
+        <input id="sigla" name="sigla" formControlName="sigla" />
+    </div>
+    <div class="formInput-container">
+        <label for="idsystem">Rádio</label>
+        <select
+            id="idsystem"
+            name="idsystem"
+            formControlName="idsystem"
+        >
+            <option value={{null}}>Selecione o rádio</option>
+            <ng-template
+                ngFor
+                let-item
+                [ngForOf]="radioOptions"
+                let-i="index"
+            >
+                <option value={{item.value}}>{{item.label}}</option>
+            </ng-template>
+        </select>
+    </div>
+    <div class="formInput-container"  style="min-width: 100%;">
+        <label for="description">Descrição</label>
+        <textarea id="description" name="description" formControlName="description">   
+        </textarea>
+    </div>
+</form>

@@ -1,15 +1,18 @@
 <div class="page-container">
     <div class="header-container">
         <h3>Equipamentos</h3>
-        <a
-            routerLink="/equipamentos/novo"
-            routerLinkActive="active"
-        >
-            Adicionar
-        </a>
+        <a routerLink="/equipamentos/novo">Criar</a>
     </div>
     <data-grid
         [columns]="columns"
         [fetchData]="fetchData"
     ></data-grid>
 </div>
+<ng-template [ngIf]="!!idToDelete">
+    <modal
+        [title]="'Confirmação'"
+        [message]="'Tem certeza que deseja excluir o rádio?'"
+        [onClose]="onCloseModal"
+        [onConfirm]="onConfirmDelete"
+    ></modal>
+</ng-template>
