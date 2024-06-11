@@ -8,26 +8,12 @@
         <button type="submit">Salvar</button>
     </div>
     <div class="formInput-container">
-        <label for="sigla">Sigla</label>
-        <input id="sigla" name="sigla" formControlName="sigla" />
+        <label for="equipament">Nome</label>
+        <input id="equipament" name="equipament" formControlName="equipament" />
     </div>
     <div class="formInput-container">
-        <label for="idsystem">Rádio</label>
-        <select
-            id="idsystem"
-            name="idsystem"
-            formControlName="idsystem"
-        >
-            <option value={{null}}>Selecione o rádio</option>
-            <ng-template
-                ngFor
-                let-item
-                [ngForOf]="radioOptions"
-                let-i="index"
-            >
-                <option value={{item.value}}>{{item.label}}</option>
-            </ng-template>
-        </select>
+        <label for="sigla">Sigla</label>
+        <input id="sigla" name="sigla" formControlName="sigla" />
     </div>
     <div class="formInput-container"  style="min-width: 100%;">
         <label for="description">Descrição</label>

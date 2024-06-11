@@ -26,6 +26,7 @@ export class EquipmentMergePage {
     radioOptions: { label: string, value: string }[] = [];
 
     equipmentForm = new FormGroup({
+        equipament: new FormControl(""),
         sigla: new FormControl(""),
         description: new FormControl("")
     });

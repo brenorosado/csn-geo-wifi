@@ -97,7 +97,6 @@
     </div>
     <div class="formInput-container">
         <label for="idsystemtype_fk">Tipo de rádio</label>
-        <!-- <input id="idsystemtype_fk" type="number" name="idsystemtype_fk" formControlName="idsystemtype_fk" /> -->
         <select
             id="idsystemtype_fk"
             name="idsystemtype_fk"
@@ -108,6 +107,24 @@
                 ngFor
                 let-item
                 [ngForOf]="radioTypeOptions"
+                let-i="index"
+            >
+                <option value={{item.value}}>{{item.label}}</option>
+            </ng-template>
+        </select>
+    </div>
+    <div class="formInput-container">
+        <label for="idequipament_fk">Equipamento</label>
+        <select
+            id="idequipament_fk"
+            name="idequipament_fk"
+            formControlName="idequipament_fk"
+        >
+            <option value={{null}}>Selecione o equipamento</option>
+            <ng-template
+                ngFor
+                let-item
+                [ngForOf]="equipmentOptions"
                 let-i="index"
             >
                 <option value={{item.value}}>{{item.label}}</option>

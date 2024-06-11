@@ -6,6 +6,7 @@ import { ModalComponent } from "../../../../core/components/modal/modal.componen
 import { fetchSystems } from "../../../../core/services/fetchSystems";
 import { NgIf } from "@angular/common";
 import { fetchSystemType } from "../../../../core/services/fetchSystemTypes";
+import { fetchEquipment } from "../../../../core/services/fetchEquipments";
 
 @Component({
     selector: 'radios-list-page',
@@ -26,6 +27,7 @@ export class RadiosListPage {
     systems: any[] = [];
     fetchData: undefined | Function = undefined;
     radioTypeOptions: { label: string, value: string }[] = [];
+    equipmentOptions: { label: string, value: string }[] = [];
     columns: Column[] = [
         {
             title: "ID",
@@ -71,6 +73,13 @@ export class RadiosListPage {
                 ?? "-"
         },
         {
+            title: "Equipamento",
+            dataProp: "idequipament_fk",
+            customRender: ({ idequipament_fk }) =>
+                this.equipmentOptions.find(({ value }) => Number(value) === Number(idequipament_fk))?.label
+                ?? "-"
+        },
+        {
             title: "Ações",
             dataProp: "actions",
             isActions: true,
@@ -88,7 +97,8 @@ export class RadiosListPage {
     async ngOnInit() {
         await Promise.all([
             this.getSystems(),
-            this.getRadioTypeOptions()
+            this.getRadioTypeOptions(),
+            this.getEquipmentOptions()
         ]);
         this.fetchData = this.getTableSystems;
         this.cdr.detectChanges();
@@ -99,6 +109,15 @@ export class RadiosListPage {
         this.radioTypeOptions = fetchedSystemTypes.map(
             ({ idsystemtype, description }) => ({
                 label: description, value: idsystemtype
+            })
+        );
+    }
+
+    getEquipmentOptions = async () => {
+        const fetchedEquipmentOptions = await fetchEquipment.list();
+        this.equipmentOptions = fetchedEquipmentOptions.map(
+            ({ idequipament, equipament }) => ({
+                label: equipament, value: idequipament
             })
         );
     }

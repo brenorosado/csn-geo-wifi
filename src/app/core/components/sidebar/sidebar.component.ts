@@ -37,16 +37,16 @@ const sidebarItems: SidebarItem[] = [
         isActive: () => window.location.pathname.includes("/tipos-radio")
     },
     {
-        iconName: "bootstrapBoombox",
-        title: "Rádios",
-        url: "/radios",
-        isActive: () => window.location.pathname.includes("/radios")
-    },
-    {
         iconName: "bootstrapTools",
         title: "Equipamentos",
         url: "/equipamentos",
         isActive: () => window.location.pathname.includes("equipamentos")
+    },
+    {
+        iconName: "bootstrapBoombox",
+        title: "Rádios",
+        url: "/radios",
+        isActive: () => window.location.pathname.includes("/radios")
     },
     {
         iconName: "bootstrapGear",

@@ -25,26 +25,29 @@ export class EquipmentListPage {
     idToDelete: string | number | undefined = "";
     equipments: any[] = [];
     fetchData: undefined | Function = undefined;
-    radioOptions: { label: string, value: string }[] = [];
     columns: Column[] = [
         {
             title: "ID",
-            dataProp: "idequipment"
+            dataProp: "idequipament"
+        },
+        {
+            title: "Equipamento",
+            dataProp: "equipament"
         },
         {
             title: "Sigla",
             dataProp: "sigla"
         },
         {
-            title: "Rádio",
-            dataProp: "idsystem",
-            customRender: ({ idsystem_fk }) =>
-                this.radioOptions.find(({ value }) => Number(value) === Number(idsystem_fk))?.label
-                ?? "-"
-        },
-        {
             title: "Descrição",
             dataProp: "description"
+        },
+        {
+            title: "Ações",
+            dataProp: '',
+            isActions: true,
+            onDelete: (data) => this.idToDelete = data.idequipament,
+            onEdit: (data) => this.router.navigate([`/equipamentos/${data.idequipament}`]),
         }
     ]
 
@@ -55,21 +58,9 @@ export class EquipmentListPage {
     ) {}
 
     async ngOnInit() {
-        await Promise.all([
-            this.getEquipments(),
-            this.getRadioOptions()
-        ]);
+        await this.getEquipments()
         this.fetchData = this.getTableEquipments;
         this.cdr.detectChanges();
-    }
-
-    getRadioOptions = async () => {
-        const fetchedSystemTypes = await fetchSystems.list();
-        this.radioOptions = fetchedSystemTypes.map(
-            ({ idsystem, description }) => ({
-                label: description, value: idsystem
-            })
-        );
     }
 
     onCloseModal = () => this.idToDelete = undefined;
@@ -83,7 +74,7 @@ export class EquipmentListPage {
                 this.cdr.detectChanges();
                 const newEquipments = [...this.equipments];
                 const indexToDelete = newEquipments.findIndex(
-                    (equipment) => equipment.idequipment === this.idToDelete
+                    (equipment) => equipment.idequipament === this.idToDelete
                 );
                 if (indexToDelete !== -1) {
                     newEquipments.splice(indexToDelete, 1);

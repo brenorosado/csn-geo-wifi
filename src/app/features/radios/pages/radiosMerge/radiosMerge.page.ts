@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { fetchSystems } from "../../../../core/services/fetchSystems";
 import { fetchSystemType } from "../../../../core/services/fetchSystemTypes";
 import { NgFor } from "@angular/common";
+import { fetchEquipment } from "../../../../core/services/fetchEquipments";
 
 @Component({
     selector: 'radios-merge-page',
@@ -26,6 +27,7 @@ export class RadiosMergePage {
 
     id: string | number | undefined = "";
     radioTypeOptions: { label: string, value: string }[] = [];
+    equipmentOptions: { label: string, value: string }[] = [];
 
     radioForm = new FormGroup({
         platform: new FormControl(""),
@@ -51,11 +53,13 @@ export class RadiosMergePage {
         isRebooting: new FormControl(""),
         bootCounter: new FormControl(""),
         idsystemtype_fk: new FormControl(""),
+        idequipament_fk: new FormControl(""),
         description: new FormControl(""),
     });
 
     ngOnInit() {
         this.getRadioTypeOptions();
+        this.getEquipmentOptions();
         this.routeSub.params.subscribe(params => this.initialLoad(params['id'] as string));
     }
 
@@ -64,6 +68,15 @@ export class RadiosMergePage {
         this.radioTypeOptions = fetchedSystemTypes.map(
             ({ idsystemtype, description }) => ({
                 label: description, value: idsystemtype
+            })
+        );
+    }
+
+    getEquipmentOptions = async () => {
+        const fetchedEquipments = await fetchEquipment.list();
+        this.equipmentOptions = fetchedEquipments.map(
+            ({ idequipament, equipament }) => ({
+                label: equipament, value: idequipament
             })
         );
     }
