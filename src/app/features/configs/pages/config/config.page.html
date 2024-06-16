@@ -8,18 +8,92 @@
         <button>Salvar</button>
     </div>
     <div class="configs-container">
-        <div *ngFor="let config of configs" class="config-section">
-            <span>{{config.name}}</span>
-            <div class="options-container">
-                <div *ngFor="let option of config.options">
-                    <label>{{option.level}} ({{config.comparison}}):</label>
-                    <input
-                    id={{option.id}}
-                    name={{option.id}}
-                    formControlName={{option.id}}
+        <div class="config-section">
+            <span>Custo</span>
+            <div style="display: flex; gap: 8px;">
+                <input
+                    type="color"
+                    class="colorInput"
+                    id="config-cost-good-color"
+                    name="config-cost-good-color"
+                    formControlName="config-cost-good-color"
+                />
+                <span class="symbol"><</span>
+                <input
+                    class="valueInput"
+                    id="config-cost-good"
+                    name="config-cost-good"
+                    formControlName="config-cost-good"
                     type="number"
-                    />
-                </div>
+                />
+                <span class="symbol"><</span>
+                <input
+                    type="color"
+                    class="colorInput"
+                    id="config-cost-regular-color"
+                    name="config-cost-regular-color"
+                    formControlName="config-cost-regular-color"
+                />
+                <span class="symbol"><</span>
+                <input
+                    class="valueInput"
+                    id="config-cost-regular"
+                    name="config-cost-regular"
+                    formControlName="config-cost-regular"
+                    type="number"
+                />
+                <span class="symbol"><</span>
+                <input
+                    type="color"
+                    class="colorInput"
+                    id="config-cost-bad-color"
+                    name="config-cost-bad-color"
+                    formControlName="config-cost-bad-color"    
+                />
+            </div>
+        </div>
+        <div class="config-section">
+            <span>RSSI</span>
+            <div style="display: flex; gap: 8px;">
+                <input
+                    type="color"
+                    class="colorInput"
+                    id="config-rssi-bad-color"
+                    name="config-rssi-bad-color"
+                    formControlName="config-rssi-bad-color"    
+                />
+                <span class="symbol"><</span>
+                <input
+                    class="valueInput"
+                    id="config-rssi-good"
+                    name="config-rssi-good"
+                    formControlName="config-rssi-good"
+                    type="number"
+                />
+                <span class="symbol"><</span>
+                <input
+                    type="color"
+                    class="colorInput"
+                    id="config-rssi-regular-color"
+                    name="config-rssi-regular-color"
+                    formControlName="config-rssi-regular-color"
+                />
+                <span class="symbol"><</span>
+                <input
+                    class="valueInput"
+                    id="config-rssi-regular"
+                    name="config-rssi-regular"
+                    formControlName="config-rssi-regular"
+                    type="number"
+                />
+                <span class="symbol"><</span>
+                <input
+                    type="color"
+                    class="colorInput"
+                    id="config-rssi-good-color"
+                    name="config-rssi-good-color"
+                    formControlName="config-rssi-good-color"
+                />
             </div>
         </div>
     </div>

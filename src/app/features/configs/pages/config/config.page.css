@@ -61,3 +61,21 @@
     border: 1px solid #004d98;
     border-radius: clamp(2px, 0.21vw, 0.21vw);
 }
+
+.valueInput {
+    width: 80px;
+    text-align: center;
+}
+
+.colorInput {
+    all: unset;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.symbol {
+    vertical-align: middle;
+    padding-top: 6px;
+}

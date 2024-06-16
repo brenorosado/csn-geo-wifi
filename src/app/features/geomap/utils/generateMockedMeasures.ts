@@ -92,7 +92,7 @@ export const generateMockedMeasures = ({
 }) => {
     const data: Measure[] = [];
 
-    for (let i = 1; i <= 16000; i++) {
+    for (let i = 1; i <= 500; i++) {
         const timestamp = getRandomDate(startDate, endDate).toISOString();
         const longitude = getRandomNumberInRange(minLongitude, maxLongitude);
         const latitude = getRandomNumberInRange(minLatitude, maxLatitude);

@@ -14,47 +14,65 @@ import { Measure } from '../../utils/generateMockedMeasures';
 import { gatherCloseMeasures } from '../../utils/handleMeasures';
 import { formDefaultValues, FormValuesType } from '../../pages/map/map.page';
 import { StyleFunction } from 'ol/style/Style';
-
-const goodConnectionStyle = new Style({
-  fill: new Fill({
-    color: "rgba(144, 238, 144, 0.4)",
-  }),
-  stroke: new Stroke({
-    color: "green",
-    width: 1
-  })
-});
-
-const regularConnectionStyle = new Style({
-  fill: new Fill({
-    color: "rgba(255, 255, 0, 0.4)"
-  }),
-  stroke: new Stroke({
-    color: "orange",
-    width: 1
-  })
-});
-
-const badConnectionStyle = new Style({
-  fill: new Fill({
-    color: "rgba(240, 128, 128, 0.4)"
-  }),
-  stroke: new Stroke({
-    color: "red",
-    width: 1
-  })
-});
+import { BAD_COST_DEFAULT_COLOR, BAD_RSSI_DEFAULT_COLOR, GOOD_COST_DEFAULT_COLOR, GOOD_RSSI_DEFAULT_COLOR, REGULAR_COST_DEFAULT_COLOR, REGULAR_RSSI_DEFAULT_COLOR } from '../../../configs/pages/config/config.page';
+import { hexToRgb } from '../../utils/colors';
 
 export const polygonStyleFunction: StyleFunction = (feature: FeatureLike) => {
   const qualityClassification = feature.get('qualityClassification');
+  const dataType = feature.get('dataType');
+
+  const colors = {
+    "custo": {
+      "good": localStorage.getItem("config-cost-good-color") ?? GOOD_COST_DEFAULT_COLOR,
+      "regular": localStorage.getItem("config-cost-regular-color") ?? REGULAR_COST_DEFAULT_COLOR,
+      "bad": localStorage.getItem("config-cost-bad-color") ?? BAD_COST_DEFAULT_COLOR,
+    },
+    "rssi": {
+      "good": localStorage.getItem("config-rssi-good-color") ?? GOOD_RSSI_DEFAULT_COLOR,
+      "regular": localStorage.getItem("config-rssi-regular-color") ?? REGULAR_RSSI_DEFAULT_COLOR,
+      "bad": localStorage.getItem("config-rssi-bad-color") ?? BAD_RSSI_DEFAULT_COLOR,
+    }
+  }
+
+  const goodConnectionStyle = new Style({
+    fill: new Fill({
+      // @ts-ignore
+      color: hexToRgb(colors[dataType][qualityClassification]?.replace("#", ""), 0.4),
+    }),
+    stroke: new Stroke({
+      // @ts-ignore
+      color: colors[dataType][qualityClassification],
+      width: 1
+    })
+  });
   
-  if (qualityClassification === "good")
-    return goodConnectionStyle;
+  // const regularConnectionStyle = new Style({
+  //   fill: new Fill({
+  //     color: "rgba(255, 255, 0, 0.4)"
+  //   }),
+  //   stroke: new Stroke({
+  //     color: "orange",
+  //     width: 1
+  //   })
+  // });
+  
+  // const badConnectionStyle = new Style({
+  //   fill: new Fill({
+  //     color: "rgba(240, 128, 128, 0.4)"
+  //   }),
+  //   stroke: new Stroke({
+  //     color: "red",
+  //     width: 1
+  //   })
+  // });
+  
+  // if (qualityClassification === "good")
+  //   return goodConnectionStyle;
 
-  if (qualityClassification === "regular")
-    return regularConnectionStyle;
+  // if (qualityClassification === "regular")
+  //   return regularConnectionStyle;
 
-  return badConnectionStyle;
+  return goodConnectionStyle;
 }
 
 @Component({
@@ -163,7 +181,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
       const polygonsFeatures = new Feature(measuresGeometry);
       
       polygonsFeatures.setProperties({
-        qualityClassification: ['bad', 'regular', 'good'][index]
+        qualityClassification: ['bad', 'regular', 'good'][index],
+        dataType
       });
       
       this.polygonsLayer
