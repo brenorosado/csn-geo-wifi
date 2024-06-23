@@ -31,8 +31,15 @@
 .configs-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     gap: clamp(24px, 1.25vw, 1.25vw);
+}
+
+.config-section {
+    padding: clamp(16px, 0.833vw, 0.833vw);
+    border-radius: clamp(16px, 0.833vw, 0.833vw);
+    /* background: lightgray; */
+    box-shadow: 0 0 clamp(8px, 0.42vw, 0.42vw) gray;
 }
 
 .config-section span {

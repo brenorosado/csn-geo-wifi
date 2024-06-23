@@ -10,9 +10,9 @@ export const GOOD_COST_DEFAULT_COLOR = "#90EE90";
 
 export const GOOD_RSSI_DEFAULT_PARAMETER = -65;
 export const REGULAR_RSSI_DEFAULT_PARAMETER = -75;
-export const BAD_RSSI_DEFAULT_COLOR = "#F08080";
+export const BAD_RSSI_DEFAULT_COLOR = "#90EE90";
 export const REGULAR_RSSI_DEFAULT_COLOR = "#FFFF00";
-export const GOOD_RSSI_DEFAULT_COLOR = "#90EE90";
+export const GOOD_RSSI_DEFAULT_COLOR = "#F08080";
 
 @Component({
     selector: 'config-page',
