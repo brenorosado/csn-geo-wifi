@@ -1,0 +1,37 @@
+<div class="filters-container">
+    <div *ngIf="!addingFilter" class="add-filter-container">
+        <button (click)="toggleAddFilter()">Adicionar filtro</button>
+    </div>
+    <form
+        *ngIf="addingFilter"
+        class="add-filter-container"
+        [formGroup]="newFilterForm"
+    >
+        <div class="formInput-container">
+            <label for="field">Campo</label>
+            <select id="field" name="field" formControlName="field">
+                <option *ngFor="let option of filterOptions" value="{{option.dataProp}}">
+                    {{option.title}}
+                </option>
+            </select>
+        </div>
+        <div class="formInput-container">
+            <label for="value">Valor</label>
+            <input id="value" name="value" formControlName="value" />
+        </div>
+        <button (click)="saveNewFilter()" type="button">
+            Confirmar
+        </button>
+        <button (click)="toggleAddFilter()" type="button">
+            Cancelar
+        </button>
+    </form>
+    <div class="selected-filter-container">
+        <div *ngFor="let filter of filters; index as i" class="selected-filter">
+            <span>{{filter.label}}: {{filter.value}}</span>
+            <button (click)="removeFilter(i)">
+                <ng-icon name="bootstrapXCircleFill"></ng-icon>
+            </button>
+        </div>
+    </div>
+</div>

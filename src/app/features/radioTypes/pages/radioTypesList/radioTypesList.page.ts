@@ -5,6 +5,8 @@ import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { ModalComponent } from "../../../../core/components/modal/modal.component";
 import { NgIf } from "@angular/common";
 import { NgToastModule, NgToastService } from "ng-angular-popup";
+import { FiltersComponent } from "../../../../core/components/filters/filters.component";
+import { applyFilters } from "../../../../core/utils/filters";
 
 @Component({
     selector: 'radio-types-list-page',
@@ -17,7 +19,8 @@ import { NgToastModule, NgToastService } from "ng-angular-popup";
         RouterLink,
         RouterLinkActive,
         NgToastModule,
-        ModalComponent
+        ModalComponent,
+        FiltersComponent
     ]
 })
 export class RadioTypesListPage {
@@ -25,16 +28,17 @@ export class RadioTypesListPage {
     systemTypes: any[] = [];
     fetchData: undefined | Function = undefined;
     columns: Column[] = [
-        { title: "ID", dataProp: "idsystemtype" },
         { title: "Descrição", dataProp: "description" },
         { 
             title: "Ações", 
-            dataProp: "actions",
+            dataProp: "",
             isActions: true,
             onDelete: (data) => this.idToDelete = data.idsystemtype,
             onEdit: (data) => this.router.navigate([`/tipos-radio/${data.idsystemtype}`])
         },
     ];
+    filters: any[] = [];
+    filterOptions = this.columns.filter(c => !!c.dataProp);
 
     constructor(
         public cdr: ChangeDetectorRef,
@@ -95,17 +99,30 @@ export class RadioTypesListPage {
         }
     }
 
+    onChangeFilters = (newFilters: any[]) => {
+        this.fetchData = undefined;
+        this.cdr.detectChanges();
+        this.filters = newFilters;
+        this.fetchData = this.getTableSystemTypes;
+        this.cdr.detectChanges();
+    }
+
     getTableSystemTypes = async (params: any) => {
         const { page, pageSize } = params;
+
+        const filteredSystemTypes = applyFilters(
+            this.systemTypes,
+            this.filters,
+        );
         
-        const newTableData = this.systemTypes.slice(
+        const newTableData = filteredSystemTypes.slice(
             page * pageSize,
             (page + 1) * pageSize
         );
 
         return {
             content: newTableData,
-            totalPages: Math.ceil(this.systemTypes.length / pageSize)
+            totalPages: Math.ceil(filteredSystemTypes.length / pageSize)
         };
     }
 }

@@ -34,7 +34,7 @@ export const polygonStyleFunction: StyleFunction = (feature: FeatureLike) => {
     }
   }
 
-  const goodConnectionStyle = new Style({
+  const connectionStyle = new Style({
     fill: new Fill({
       // @ts-ignore
       color: hexToRgb(colors[dataType][qualityClassification]?.replace("#", ""), 0.4),
@@ -45,34 +45,8 @@ export const polygonStyleFunction: StyleFunction = (feature: FeatureLike) => {
       width: 1
     })
   });
-  
-  // const regularConnectionStyle = new Style({
-  //   fill: new Fill({
-  //     color: "rgba(255, 255, 0, 0.4)"
-  //   }),
-  //   stroke: new Stroke({
-  //     color: "orange",
-  //     width: 1
-  //   })
-  // });
-  
-  // const badConnectionStyle = new Style({
-  //   fill: new Fill({
-  //     color: "rgba(240, 128, 128, 0.4)"
-  //   }),
-  //   stroke: new Stroke({
-  //     color: "red",
-  //     width: 1
-  //   })
-  // });
-  
-  // if (qualityClassification === "good")
-  //   return goodConnectionStyle;
 
-  // if (qualityClassification === "regular")
-  //   return regularConnectionStyle;
-
-  return goodConnectionStyle;
+  return connectionStyle;
 }
 
 @Component({
@@ -93,10 +67,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    let goodConnectionsVectorSource = new VectorSource({features: []});
+    let connectionsVectorSource = new VectorSource({features: []});
 
     this.polygonsLayer = new Vector({
-      source: goodConnectionsVectorSource,
+      source: connectionsVectorSource,
       style: polygonStyleFunction
     });
 

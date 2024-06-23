@@ -1,0 +1,47 @@
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.42vw, 0.42vw);
+}
+
+.filters-container button {
+    all: unset;
+    cursor: pointer;
+    padding: clamp(8px, 0.42vw, 0.42vw);
+    background: #004d98;
+    color: white;
+    border-radius: clamp(8px, 0.42vw, 42vw);
+}
+
+.add-filter-container {
+    display: flex;
+    gap: clamp(8px, 0.833vw, 0.833vw);
+}
+
+.selected-filter-container {
+    display: flex;
+    gap: clamp(8px, 0.833vw, 0.833vw);
+}
+
+.selected-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid blue;
+    padding: clamp(4px, 0.21vw, 0.21vw);
+    border-radius: clamp(4px, 0.21vw, 0.21vw);
+    gap: clamp(4px, 0.42vw, 0.42vw);
+}
+
+.selected-filter span {
+    color: black;
+}
+
+.selected-filter button {
+    all: unset;
+    color: red;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -6,6 +6,8 @@ import { fetchSystems } from "../../../../core/services/fetchSystems";
 import { fetchEquipment } from "../../../../core/services/fetchEquipments";
 import { ModalComponent } from "../../../../core/components/modal/modal.component";
 import { NgIf } from "@angular/common";
+import { FiltersComponent } from "../../../../core/components/filters/filters.component";
+import { applyFilters } from "../../../../core/utils/filters";
 
 @Component({
     selector: 'equipment-list-page',
@@ -15,6 +17,7 @@ import { NgIf } from "@angular/common";
         RouterLink,
         RouterLinkActive,
         ModalComponent,
+        FiltersComponent,
         NgIf
     ],
     standalone: true,
@@ -26,10 +29,6 @@ export class EquipmentListPage {
     equipments: any[] = [];
     fetchData: undefined | Function = undefined;
     columns: Column[] = [
-        {
-            title: "ID",
-            dataProp: "idequipament"
-        },
         {
             title: "Equipamento",
             dataProp: "equipament"
@@ -49,7 +48,9 @@ export class EquipmentListPage {
             onDelete: (data) => this.idToDelete = data.idequipament,
             onEdit: (data) => this.router.navigate([`/equipamentos/${data.idequipament}`]),
         }
-    ]
+    ];
+    filters: any[] = [];
+    filterOptions = this.columns.filter(c => !!c.dataProp)
 
     constructor(
         public cdr: ChangeDetectorRef,
@@ -109,17 +110,30 @@ export class EquipmentListPage {
         }
     }
 
+    onChangeFilters = (newFilters: any[]) => {
+        this.fetchData = undefined;
+        this.cdr.detectChanges();
+        this.filters = newFilters;
+        this.fetchData = this.getTableEquipments;
+        this.cdr.detectChanges();
+    }
+
     getTableEquipments = (params: any) => {
         const { page, pageSize } = params;
-        
-        const newTableData = this.equipments.slice(
+
+        const filteredEquipments = applyFilters(
+            this.equipments,
+            this.filters
+        );
+
+        const newTableData = filteredEquipments.slice(
             page * pageSize,
             (page + 1) * pageSize
         );
 
         return {
             content: newTableData,
-            totalPages: Math.ceil(this.equipments.length / pageSize)
+            totalPages: Math.ceil(filteredEquipments.length / pageSize)
         };
     }
 }

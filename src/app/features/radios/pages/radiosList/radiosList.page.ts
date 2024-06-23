@@ -7,6 +7,8 @@ import { fetchSystems } from "../../../../core/services/fetchSystems";
 import { NgIf } from "@angular/common";
 import { fetchSystemType } from "../../../../core/services/fetchSystemTypes";
 import { fetchEquipment } from "../../../../core/services/fetchEquipments";
+import { FiltersComponent } from "../../../../core/components/filters/filters.component";
+import { applyFilters } from "../../../../core/utils/filters";
 
 @Component({
     selector: 'radios-list-page',
@@ -19,6 +21,7 @@ import { fetchEquipment } from "../../../../core/services/fetchEquipments";
         RouterLink,
         RouterLinkActive,
         ModalComponent,
+        FiltersComponent,
         NgIf
     ]
 })
@@ -29,10 +32,6 @@ export class RadiosListPage {
     radioTypeOptions: { label: string, value: string }[] = [];
     equipmentOptions: { label: string, value: string }[] = [];
     columns: Column[] = [
-        {
-            title: "ID",
-            dataProp: "idsystem",
-        },
         {
             title: "Descrição",
             dataProp: "description",
@@ -46,7 +45,7 @@ export class RadiosListPage {
             dataProp: "networkId",
         },
         {
-            title: "ipv4address",
+            title: "IPv4",
             dataProp: "ipv4address",
         },
         {
@@ -62,7 +61,7 @@ export class RadiosListPage {
             dataProp: "dns",
         },
         {
-            title: "ipv6address",
+            title: "IPv6",
             dataProp: "ipv6address",
         },
         {
@@ -81,12 +80,14 @@ export class RadiosListPage {
         },
         {
             title: "Ações",
-            dataProp: "actions",
+            dataProp: "",
             isActions: true,
             onDelete: (data) => this.idToDelete = data.idsystem,
             onEdit: (data) => this.router.navigate([`/radios/${data.idsystem}`]),
         }
     ];
+    filters: any[] = [];
+    filterOptions = this.columns.filter(c => !!c.dataProp);
 
     constructor(
         public cdr: ChangeDetectorRef,
@@ -168,17 +169,34 @@ export class RadiosListPage {
         }
     }
 
+    onChangeFilters = (newFilters: any[]) => {
+        this.fetchData = undefined;
+        this.cdr.detectChanges();
+        this.filters = newFilters;
+        this.fetchData = this.getTableSystems;
+        this.cdr.detectChanges();
+    }
+
     getTableSystems = (params: any) => {
         const { page, pageSize } = params;
         
-        const newTableData = this.systems.slice(
+        const filteredTableSystems = applyFilters(
+            this.systems,
+            this.filters,
+            [
+                { field: "idsystemtype_fk", list: this.radioTypeOptions },
+                { field: "idequipament_fk", list: this.equipmentOptions }
+            ]
+        );
+
+        const newTableData = filteredTableSystems.slice(
             page * pageSize,
             (page + 1) * pageSize
         );
 
         return {
             content: newTableData,
-            totalPages: Math.ceil(this.systems.length / pageSize)
+            totalPages: Math.ceil(filteredTableSystems.length / pageSize)
         };
     }
 }

@@ -3,6 +3,11 @@
         <h3>Rádios</h3>
         <a routerLink="/radios/novo">Criar</a>
     </div>
+    <app-filters
+        [filterOptions]="filterOptions"
+        [filters]="filters"
+        [onChangeFilters]="onChangeFilters">
+    </app-filters>
     <data-grid
         [columns]="columns"
         [fetchData]="fetchData"

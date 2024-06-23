@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component } from "@angular/core";
 import { Column, DataGridComponent } from "../../../../core/components/dataGrid/dataGrid.component";
 import { Measure, generateMockedMeasures } from "../../../geomap/utils/generateMockedMeasures";
 import { fetchMeasures } from "../../../../core/services/fetchMeasures";
+import { FiltersComponent } from "../../../../core/components/filters/filters.component";
+import { applyFilters } from "../../../../core/utils/filters";
 
 @Component({
     selector: 'measures-list-page',
@@ -9,7 +11,8 @@ import { fetchMeasures } from "../../../../core/services/fetchMeasures";
     templateUrl: './measuresList.page.html',
     styleUrl: './measuresList.page.css',
     imports: [
-        DataGridComponent
+        DataGridComponent,
+        FiltersComponent
     ]
 })
 export class MeasuresListPage {
@@ -21,10 +24,6 @@ export class MeasuresListPage {
     fetchData: undefined | Function = undefined;
 
     columns: Column[] = [
-        {
-            title: "ID",
-            dataProp: "idpeer"
-        },
         {
             title: "IP",
             dataProp: "ip"
@@ -69,7 +68,9 @@ export class MeasuresListPage {
             title: "Custo",
             dataProp: "cost"
         }
-    ]
+    ];
+    filters: any[] = [];
+    filterOptions = this.columns.filter(c => !!c.dataProp);
 
     async ngOnInit() {
         await this.getMeasures();
@@ -82,17 +83,30 @@ export class MeasuresListPage {
         this.measures = fetchedMeasures;
     }
 
+    onChangeFilters = (newFilters: any[]) => {
+        this.fetchData = undefined;
+        this.cdr.detectChanges();
+        this.filters = newFilters;
+        this.fetchData = this.getTableMeasures;
+        this.cdr.detectChanges();
+    }
+
     getTableMeasures = async (params: any) => {
         const { page, pageSize } = params;
         
-        const newTableData = this.measures.slice(
+        const filteredMeasures = applyFilters(
+            this.measures,
+            this.filters,
+        );
+
+        const newTableData = filteredMeasures.slice(
             page * pageSize,
             (page + 1) * pageSize
         );
 
         return {
             content: newTableData,
-            totalPages: Math.ceil(this.measures.length / pageSize)
+            totalPages: Math.ceil(filteredMeasures.length / pageSize)
         };
     }
 }
